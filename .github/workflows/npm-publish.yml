@@ -1,0 +1,56 @@
+name: npm publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "npm dist-tag (e.g. latest, beta)"
+        required: false
+        default: "latest"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build packages
+        run: bun run build
+        continue-on-error: true
+
+      - name: Publish to npm
+        run: |
+          TAG=${{ github.event.inputs.tag || 'latest' }}
+          for pkg in packages/*/package.json; do
+            dir=$(dirname "$pkg")
+            name=$(node -p "require('./$pkg').name || ''")
+            private=$(node -p "require('./$pkg').private || false")
+            if [ -z "$name" ] || [ "$private" = "true" ]; then
+              continue
+            fi
+            echo "Publishing $name from $dir..."
+            cd "$dir"
+            npm publish --access public --tag "$TAG" || echo "Skipped $name"
+            cd "$GITHUB_WORKSPACE"
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
