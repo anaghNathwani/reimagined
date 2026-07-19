@@ -1,7 +1,7 @@
 import React from "react"
 import { AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion"
 
-// stats.reimagined.ai design tokens (light theme)
+// stats.opencode.ai design tokens (light theme)
 const c = {
   bg: "#ffffff",
   ink: "#161616",
@@ -177,7 +177,7 @@ export function FlashShare() {
             <span style={{ width: 13, height: 13, background: c.accent, display: "inline-block" }} />
             DeepSeek V4 Flash · 9.48T tokens · 83.6M requests
           </div>
-          <div style={{ color: c.ink }}>reimagined.ai/data</div>
+          <div style={{ color: c.ink }}>opencode.ai/data</div>
         </div>
       </div>
     </AbsoluteFill>

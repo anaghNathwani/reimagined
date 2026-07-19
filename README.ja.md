@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://reimagined.ai">
+  <a href="https://opencode.ai">
     <picture>
       <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
@@ -9,7 +9,7 @@
 </p>
 <p align="center">オープンソースのAIコーディングエージェント。</p>
 <p align="center">
-  <a href="https://reimagined.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
   <a href="https://www.npmjs.com/package/reimagined-ai"><img alt="npm" src="https://img.shields.io/npm/v/reimagined-ai?style=flat-square" /></a>
   <a href="https://github.com/anomalyco/reimagined/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/reimagined/publish.yml?style=flat-square&branch=dev" /></a>
 </p>
@@ -39,7 +39,7 @@
   <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-[![Reimagined Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://reimagined.ai)
+[![Reimagined Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
 
 ---
 
@@ -47,7 +47,7 @@
 
 ```bash
 # YOLO
-curl -fsSL https://reimagined.ai/install | bash
+curl -fsSL https://opencode.ai/install | bash
 
 # パッケージマネージャー
 npm i -g reimagined-ai@latest        # bun/pnpm/yarn でもOK
@@ -66,7 +66,7 @@ nix run nixpkgs#reimagined           # または github:anomalyco/reimagined で
 
 ### デスクトップアプリ (BETA)
 
-Reimagined はデスクトップアプリとしても利用できます。[releases page](https://github.com/anomalyco/reimagined/releases) から直接ダウンロードするか、[reimagined.ai/download](https://reimagined.ai/download) を利用してください。
+Reimagined はデスクトップアプリとしても利用できます。[releases page](https://github.com/anomalyco/reimagined/releases) から直接ダウンロードするか、[opencode.ai/download](https://opencode.ai/download) を利用してください。
 
 | プラットフォーム      | ダウンロード                       |
 | --------------------- | ---------------------------------- |
@@ -93,8 +93,8 @@ scoop bucket add extras; scoop install extras/reimagined-desktop
 
 ```bash
 # 例
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://reimagined.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://reimagined.ai/install | bash
+OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://opencode.ai/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
 ```
 
 ### Agents
@@ -110,11 +110,11 @@ Reimagined には組み込みの Agent が2つあり、`Tab` キーで切り替�
 また、複雑な検索やマルチステップのタスク向けに **general** サブ Agent も含まれています。
 内部的に使用されており、メッセージで `@general` と入力して呼び出せます。
 
-[agents](https://reimagined.ai/docs/agents) の詳細はこちら。
+[agents](https://opencode.ai/docs/agents) の詳細はこちら。
 
 ### ドキュメント
 
-Reimagined の設定については [**ドキュメント**](https://reimagined.ai/docs) を参照してください。
+Reimagined の設定については [**ドキュメント**](https://opencode.ai/docs) を参照してください。
 
 ### コントリビュート
 

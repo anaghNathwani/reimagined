@@ -74,7 +74,7 @@ describe("plugin.workspace", () => {
           path.join(dir, "reimagined.json"),
           JSON.stringify(
             {
-              $schema: "https://reimagined.ai/config.json",
+              $schema: "https://opencode.ai/config.json",
               plugin: [pathToFileURL(file).href],
             },
             null,

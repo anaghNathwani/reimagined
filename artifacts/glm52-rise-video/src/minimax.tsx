@@ -193,7 +193,7 @@ export function MiniMaxClimb() {
             <span style={{ width: 13, height: 13, background: c.accent, display: "inline-block" }} />
             2.56T tokens last week · +482.3B added
           </div>
-          <div style={{ color: c.ink }}>reimagined.ai/data</div>
+          <div style={{ color: c.ink }}>opencode.ai/data</div>
         </div>
       </div>
     </AbsoluteFill>

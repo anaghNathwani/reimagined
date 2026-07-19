@@ -6,7 +6,7 @@ async function handler(evt: APIEvent) {
   const req = evt.request.clone()
   const url = new URL(req.url)
   const locale = localeFromRequest(req)
-  const host = Resource.App.stage === "production" ? "docs.reimagined.ai" : "docs.dev.reimagined.ai"
+  const host = Resource.App.stage === "production" ? "docs.opencode.ai" : "docs.dev.opencode.ai"
   const targetUrl = `https://${host}${docs(locale, url.pathname)}${url.search}`
 
   const headers = new Headers(req.headers)

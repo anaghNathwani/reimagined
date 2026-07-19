@@ -55,9 +55,9 @@ const APP_NAMES: Record<string, string> = {
   prod: "Reimagined",
 }
 const APP_IDS: Record<string, string> = {
-  dev: "ai.reimagined.desktop.dev",
-  beta: "ai.reimagined.desktop.beta",
-  prod: "ai.reimagined.desktop",
+  dev: "ai.opencode.desktop.dev",
+  beta: "ai.opencode.desktop.beta",
+  prod: "ai.opencode.desktop",
 }
 const TEST_ONBOARDING = process.env.OPENCODE_TEST_ONBOARDING === "1"
 const jsCallStackFeature = "DocumentPolicyIncludeJSCallStacksInCrashReports"
@@ -120,7 +120,7 @@ const main = Effect.gen(function* () {
 
   process.env.OPENCODE_DISABLE_EMBEDDED_WEB_UI = "true"
 
-  const appId = app.isPackaged ? APP_IDS[CHANNEL] : "ai.reimagined.desktop.dev"
+  const appId = app.isPackaged ? APP_IDS[CHANNEL] : "ai.opencode.desktop.dev"
   const onboardingTestRoot = ((): string | undefined => {
     if (!TEST_ONBOARDING) return
 

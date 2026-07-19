@@ -146,7 +146,7 @@ export const dict = {
   "provider.connect.reimaginedZen.line2":
     "Tek bir API anahtarıyla Claude, GPT, Gemini, GLM ve daha fazlası gibi modellere erişebilirsiniz.",
   "provider.connect.reimaginedZen.visit.prefix": "",
-  "provider.connect.reimaginedZen.visit.link": "reimagined.ai/zen",
+  "provider.connect.reimaginedZen.visit.link": "opencode.ai/zen",
   "provider.connect.reimaginedZen.visit.suffix": " adresini ziyaret ederek API anahtarınızı alın.",
   "provider.connect.oauth.code.visit.prefix": "Yetkilendirme kodunuzu almak için ",
   "provider.connect.oauth.code.visit.link": "bu bağlantıya",

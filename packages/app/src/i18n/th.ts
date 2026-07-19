@@ -142,7 +142,7 @@ export const dict = {
   "provider.connect.reimaginedZen.line2":
     "ด้วยคีย์ API เดียวคุณจะได้รับการเข้าถึงโมเดล เช่น Claude, GPT, Gemini, GLM และอื่น ๆ",
   "provider.connect.reimaginedZen.visit.prefix": "เยี่ยมชม ",
-  "provider.connect.reimaginedZen.visit.link": "reimagined.ai/zen",
+  "provider.connect.reimaginedZen.visit.link": "opencode.ai/zen",
   "provider.connect.reimaginedZen.visit.suffix": " เพื่อรวบรวมคีย์ API ของคุณ",
   "provider.connect.oauth.code.visit.prefix": "เยี่ยมชม ",
   "provider.connect.oauth.code.visit.link": "ลิงก์นี้",

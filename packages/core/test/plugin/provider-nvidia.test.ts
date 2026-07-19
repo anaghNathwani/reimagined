@@ -39,7 +39,7 @@ describe("NvidiaPlugin", () => {
       yield* addPlugin()
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://reimagined.ai/",
+        "HTTP-Referer": "https://opencode.ai/",
         "X-Title": "reimagined",
         "X-BILLING-INVOKE-ORIGIN": "Reimagined",
       })
@@ -62,7 +62,7 @@ describe("NvidiaPlugin", () => {
       yield* addPlugin()
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
-        "HTTP-Referer": "https://reimagined.ai/",
+        "HTTP-Referer": "https://opencode.ai/",
         "X-Title": "reimagined",
         "X-BILLING-INVOKE-ORIGIN": "Reimagined",
       })
@@ -88,7 +88,7 @@ describe("NvidiaPlugin", () => {
       yield* addPlugin()
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
-        "HTTP-Referer": "https://reimagined.ai/",
+        "HTTP-Referer": "https://opencode.ai/",
         "X-Title": "reimagined",
         "X-BILLING-INVOKE-ORIGIN": "CustomOrigin",
       })

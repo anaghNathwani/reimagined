@@ -4,10 +4,10 @@
   "version": "1.18.3",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://reimagined.ai",
+  "homepage": "https://opencode.ai",
   "author": {
     "name": "Reimagined",
-    "email": "hello@reimagined.ai"
+    "email": "hello@opencode.ai"
   },
   "scripts": {
     "typecheck": "tsgo -b",

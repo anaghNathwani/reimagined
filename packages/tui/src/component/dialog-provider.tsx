@@ -375,7 +375,7 @@ function ApiMethod(props: ApiMethodProps) {
                 key.
               </text>
               <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://reimagined.ai/zen</span> to get a key
+                Go to <span style={{ fg: theme.primary }}>https://opencode.ai/zen</span> to get a key
               </text>
             </box>
           ),
@@ -386,7 +386,7 @@ function ApiMethod(props: ApiMethodProps) {
                 with generous usage limits.
               </text>
               <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://reimagined.ai/go</span> and enable Reimagined Go
+                Go to <span style={{ fg: theme.primary }}>https://opencode.ai/go</span> and enable Reimagined Go
               </text>
             </box>
           ),

@@ -875,7 +875,7 @@ function ProviderConnection(props: {
               <div>
                 {language.t("provider.connect.reimaginedZen.visit.prefix")}
                 <Link
-                  href="https://reimagined.ai/zen"
+                  href="https://opencode.ai/zen"
                   class="text-v2-text-text-base focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-v2-border-border-focus"
                 >
                   {language.t("provider.connect.reimaginedZen.visit.link")}
@@ -923,7 +923,7 @@ function ProviderConnection(props: {
               <div class="text-14-regular text-text-base">{language.t("provider.connect.reimaginedZen.line2")}</div>
               <div class="text-14-regular text-text-base">
                 {language.t("provider.connect.reimaginedZen.visit.prefix")}
-                <Link href="https://reimagined.ai/zen" tabIndex={-1}>
+                <Link href="https://opencode.ai/zen" tabIndex={-1}>
                   {language.t("provider.connect.reimaginedZen.visit.link")}
                 </Link>
                 {language.t("provider.connect.reimaginedZen.visit.suffix")}

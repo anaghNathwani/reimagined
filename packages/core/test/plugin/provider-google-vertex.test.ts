@@ -95,7 +95,7 @@ describe("GoogleVertexPlugin", () => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://reimagined.ai/zen/v1",
+            url: "https://opencode.ai/zen/v1",
           }
         }),
       )

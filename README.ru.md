@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://reimagined.ai">
+  <a href="https://opencode.ai">
     <picture>
       <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
@@ -9,7 +9,7 @@
 </p>
 <p align="center">Открытый AI-агент для программирования.</p>
 <p align="center">
-  <a href="https://reimagined.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
   <a href="https://www.npmjs.com/package/reimagined-ai"><img alt="npm" src="https://img.shields.io/npm/v/reimagined-ai?style=flat-square" /></a>
   <a href="https://github.com/anomalyco/reimagined/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/reimagined/publish.yml?style=flat-square&branch=dev" /></a>
 </p>
@@ -39,7 +39,7 @@
   <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-[![Reimagined Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://reimagined.ai)
+[![Reimagined Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
 
 ---
 
@@ -47,7 +47,7 @@
 
 ```bash
 # YOLO
-curl -fsSL https://reimagined.ai/install | bash
+curl -fsSL https://opencode.ai/install | bash
 
 # Менеджеры пакетов
 npm i -g reimagined-ai@latest        # или bun/pnpm/yarn
@@ -66,7 +66,7 @@ nix run nixpkgs#reimagined           # или github:anomalyco/reimagined для
 
 ### Десктопное приложение (BETA)
 
-Reimagined также доступен как десктопное приложение. Скачайте его со [страницы релизов](https://github.com/anomalyco/reimagined/releases) или с [reimagined.ai/download](https://reimagined.ai/download).
+Reimagined также доступен как десктопное приложение. Скачайте его со [страницы релизов](https://github.com/anomalyco/reimagined/releases) или с [opencode.ai/download](https://opencode.ai/download).
 
 | Платформа             | Загрузка                           |
 | --------------------- | ---------------------------------- |
@@ -93,8 +93,8 @@ scoop bucket add extras; scoop install extras/reimagined-desktop
 
 ```bash
 # Примеры
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://reimagined.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://reimagined.ai/install | bash
+OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://opencode.ai/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
 ```
 
 ### Agents
@@ -110,11 +110,11 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://reimagined.ai/install | bash
 Также включен сабагент **general** для сложных поисков и многошаговых задач.
 Он используется внутренне и может быть вызван в сообщениях через `@general`.
 
-Подробнее об [agents](https://reimagined.ai/docs/agents).
+Подробнее об [agents](https://opencode.ai/docs/agents).
 
 ### Документация
 
-Больше информации о том, как настроить Reimagined: [**наши docs**](https://reimagined.ai/docs).
+Больше информации о том, как настроить Reimagined: [**наши docs**](https://opencode.ai/docs).
 
 ### Вклад
 

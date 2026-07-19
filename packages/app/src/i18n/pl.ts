@@ -130,7 +130,7 @@ export const dict = {
   "provider.connect.reimaginedZen.line2":
     "Z jednym kluczem API uzyskasz dostęp do modeli takich jak Claude, GPT, Gemini, GLM i więcej.",
   "provider.connect.reimaginedZen.visit.prefix": "Odwiedź ",
-  "provider.connect.reimaginedZen.visit.link": "reimagined.ai/zen",
+  "provider.connect.reimaginedZen.visit.link": "opencode.ai/zen",
   "provider.connect.reimaginedZen.visit.suffix": ", aby odebrać swój klucz API.",
   "provider.connect.oauth.code.visit.prefix": "Odwiedź ",
   "provider.connect.oauth.code.visit.link": "ten link",

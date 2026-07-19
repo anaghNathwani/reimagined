@@ -130,7 +130,7 @@ export function NZSheep() {
             }}
           >
             <div style={{ color: c.dim }}>40.9B tokens ÷ 23.6M sheep · last week</div>
-            <div style={{ color: c.white }}>reimagined.ai/data</div>
+            <div style={{ color: c.white }}>opencode.ai/data</div>
           </div>
         </div>
       </div>

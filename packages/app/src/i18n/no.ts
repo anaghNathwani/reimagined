@@ -141,7 +141,7 @@ export const dict = {
   "provider.connect.reimaginedZen.line2":
     "Med én enkelt API-nøkkel får du tilgang til modeller som Claude, GPT, Gemini, GLM og flere.",
   "provider.connect.reimaginedZen.visit.prefix": "Besøk ",
-  "provider.connect.reimaginedZen.visit.link": "reimagined.ai/zen",
+  "provider.connect.reimaginedZen.visit.link": "opencode.ai/zen",
   "provider.connect.reimaginedZen.visit.suffix": " for å hente API-nøkkelen din.",
   "provider.connect.oauth.code.visit.prefix": "Besøk ",
   "provider.connect.oauth.code.visit.link": "denne lenken",

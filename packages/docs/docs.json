@@ -16,7 +16,7 @@
           {
             "group": "Getting started",
             "pages": ["index", "quickstart", "development"],
-            "openapi": "https://reimagined.ai/openapi.json"
+            "openapi": "https://opencode.ai/openapi.json"
           }
         ]
       }

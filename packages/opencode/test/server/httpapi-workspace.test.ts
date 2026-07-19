@@ -399,7 +399,7 @@ describe("workspace HttpApi", () => {
             "content-type": "application/json",
             "x-reimagined-workspace": "internal",
           },
-          body: JSON.stringify({ $schema: "https://reimagined.ai/config.json" }),
+          body: JSON.stringify({ $schema: "https://opencode.ai/config.json" }),
         })
 
         const responseBody = yield* response.text
@@ -416,7 +416,7 @@ describe("workspace HttpApi", () => {
               "content-type": "application/json",
               "x-target-auth": "secret",
             }),
-            body: JSON.stringify({ $schema: "https://reimagined.ai/config.json" }),
+            body: JSON.stringify({ $schema: "https://opencode.ai/config.json" }),
           },
         ])
         expect(forwarded[0]?.headers).not.toHaveProperty("x-reimagined-directory")

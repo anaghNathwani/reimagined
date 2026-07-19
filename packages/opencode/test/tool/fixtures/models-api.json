@@ -33607,9 +33607,9 @@
     "id": "reimagined-go",
     "env": ["OPENCODE_API_KEY"],
     "npm": "@ai-sdk/openai-compatible",
-    "api": "https://reimagined.ai/zen/go/v1",
+    "api": "https://opencode.ai/zen/go/v1",
     "name": "Reimagined Go",
-    "doc": "https://reimagined.ai/docs/zen",
+    "doc": "https://opencode.ai/docs/zen",
     "models": {
       "deepseek-v4-flash": {
         "id": "deepseek-v4-flash",
@@ -90323,9 +90323,9 @@
     "id": "reimagined",
     "env": ["OPENCODE_API_KEY"],
     "npm": "@ai-sdk/openai-compatible",
-    "api": "https://reimagined.ai/zen/v1",
+    "api": "https://opencode.ai/zen/v1",
     "name": "Reimagined Zen",
-    "doc": "https://reimagined.ai/docs/zen",
+    "doc": "https://opencode.ai/docs/zen",
     "models": {
       "ring-2.6-1t-free": {
         "id": "ring-2.6-1t-free",

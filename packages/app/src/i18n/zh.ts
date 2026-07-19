@@ -166,7 +166,7 @@ export const dict = {
   "provider.connect.reimaginedZen.line1": "Reimagined Zen 为你提供一组精选的可靠优化模型，用于代码智能体。",
   "provider.connect.reimaginedZen.line2": "只需一个 API 密钥，你就能使用 Claude、GPT、Gemini、GLM 等模型。",
   "provider.connect.reimaginedZen.visit.prefix": "访问 ",
-  "provider.connect.reimaginedZen.visit.link": "reimagined.ai/zen",
+  "provider.connect.reimaginedZen.visit.link": "opencode.ai/zen",
   "provider.connect.reimaginedZen.visit.suffix": " 获取你的 API 密钥。",
   "provider.connect.oauth.code.visit.prefix": "访问 ",
   "provider.connect.oauth.code.visit.link": "此链接",

@@ -466,7 +466,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://reimagined.ai/",
+            "HTTP-Referer": "https://opencode.ai/",
             "X-Title": "reimagined",
             "X-Source": "reimagined",
           },
@@ -496,7 +496,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: provider.source === "config",
         options: {
           headers: {
-            "HTTP-Referer": "https://reimagined.ai/",
+            "HTTP-Referer": "https://opencode.ai/",
             "X-Title": "reimagined",
             "X-BILLING-INVOKE-ORIGIN": "Reimagined",
           },
@@ -507,7 +507,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "http-referer": "https://reimagined.ai/",
+            "http-referer": "https://opencode.ai/",
             "x-title": "reimagined",
           },
         },
@@ -613,7 +613,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://reimagined.ai/",
+            "HTTP-Referer": "https://opencode.ai/",
             "X-Title": "reimagined",
           },
         },
@@ -871,7 +871,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://reimagined.ai/",
+            "HTTP-Referer": "https://opencode.ai/",
             "X-Title": "reimagined",
           },
         },

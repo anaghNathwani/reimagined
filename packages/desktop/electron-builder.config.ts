@@ -11,7 +11,7 @@ const rootDir = path.resolve(packageDir, "../..")
 const signScript = path.join(rootDir, "script", "sign-windows.ps1")
 // The Electron 42 packaging update briefly installed Linux launchers/icons under
 // "reimagined-desktop". Keep that hidden desktop entry around so existing GNOME/KDE
-// pins still resolve after the canonical app id changes back to ai.reimagined.desktop.
+// pins still resolve after the canonical app id changes back to ai.opencode.desktop.
 const legacyDesktopEntry = path.join(packageDir, "resources", "linux", "reimagined-desktop.desktop")
 const legacyDesktopEntryFpm = `${legacyDesktopEntry}=/usr/share/applications/reimagined-desktop.desktop`
 
@@ -33,9 +33,9 @@ const channel = (() => {
 })()
 
 const APP_IDS = {
-  dev: "ai.reimagined.desktop.dev",
-  beta: "ai.reimagined.desktop.beta",
-  prod: "ai.reimagined.desktop",
+  dev: "ai.opencode.desktop.dev",
+  beta: "ai.opencode.desktop.beta",
+  prod: "ai.opencode.desktop",
 } as const
 
 const getBase = (appId: string): Configuration => ({
@@ -45,8 +45,8 @@ const getBase = (appId: string): Configuration => ({
     buildResources: "resources",
   },
   // Linux launchers are .desktop files, so this is the desktop file name,
-  // not just the app id. For prod, app id "ai.reimagined.desktop" becomes
-  // "ai.reimagined.desktop.desktop".
+  // not just the app id. For prod, app id "ai.opencode.desktop" becomes
+  // "ai.opencode.desktop.desktop".
   // https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html
   // https://www.electron.build/docs/linux/
   extraMetadata: {

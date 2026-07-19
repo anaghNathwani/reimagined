@@ -1,7 +1,7 @@
 {
   "productName": "Reimagined Editor",
   "version": "0.1.0",
-  "identifier": "ai.reimagined.editor",
+  "identifier": "ai.opencode.editor",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",

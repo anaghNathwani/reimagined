@@ -41,7 +41,7 @@ function withProject<A, E, R>(source: string, self: Effect.Effect<A, E, R>) {
             path.join(test.directory, "reimagined.json"),
             JSON.stringify(
               {
-                $schema: "https://reimagined.ai/config.json",
+                $schema: "https://opencode.ai/config.json",
                 plugin: [pathToFileURL(file).href],
               },
               null,

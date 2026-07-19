@@ -1,6 +1,6 @@
 # reimagined GitHub Action
 
-A GitHub Action that integrates [reimagined](https://reimagined.ai) directly into your GitHub workflow.
+A GitHub Action that integrates [reimagined](https://opencode.ai) directly into your GitHub workflow.
 
 Mention `/reimagined` in your comment, and reimagined will execute tasks within your GitHub Actions runner.
 

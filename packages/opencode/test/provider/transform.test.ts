@@ -2573,7 +2573,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
       providerID: "reimagined",
       api: {
         id: "reimagined-test",
-        url: "https://api.reimagined.ai",
+        url: "https://api.opencode.ai",
         npm: "@ai-sdk/openai-compatible",
       },
     }
@@ -2607,7 +2607,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
       providerID: "reimagined",
       api: {
         id: "reimagined-test",
-        url: "https://api.reimagined.ai",
+        url: "https://api.opencode.ai",
         npm: "@ai-sdk/openai-compatible",
       },
     }

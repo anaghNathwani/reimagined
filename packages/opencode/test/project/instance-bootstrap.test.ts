@@ -52,7 +52,7 @@ const bootstrapFixture = Effect.gen(function* () {
     Bun.write(
       path.join(dir, "reimagined.json"),
       JSON.stringify({
-        $schema: "https://reimagined.ai/config.json",
+        $schema: "https://opencode.ai/config.json",
         plugin: [pathToFileURL(pluginFile).href],
       }),
     ),

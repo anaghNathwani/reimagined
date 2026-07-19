@@ -1,10 +1,10 @@
 # reimagined VS Code Extension
 
-A Visual Studio Code extension that integrates [reimagined](https://reimagined.ai) directly into your development workflow.
+A Visual Studio Code extension that integrates [reimagined](https://opencode.ai) directly into your development workflow.
 
 ## Prerequisites
 
-This extension requires the [reimagined CLI](https://reimagined.ai) to be installed on your system. Visit [reimagined.ai](https://reimagined.ai) for installation instructions.
+This extension requires the [reimagined CLI](https://opencode.ai) to be installed on your system. Visit [opencode.ai](https://opencode.ai) for installation instructions.
 
 ## Features
 

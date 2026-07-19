@@ -59,7 +59,7 @@ function model(input: {
     providerID: "reimagined",
     api: {
       id: "reimagined",
-      url: "https://reimagined.ai",
+      url: "https://opencode.ai",
       npm: "@ai-sdk/openai-compatible",
     },
     name: input.name,
