@@ -4,16 +4,16 @@ import { type rpc } from "../tui/worker"
 import path from "path"
 import { fileURLToPath } from "url"
 import { UI } from "@/cli/ui"
-import { errorMessage } from "@opencode-ai/tui/util/error"
+import { errorMessage } from "@reimagined-ai/tui/util/error"
 import { withTimeout } from "@/util/timeout"
 import { withNetworkOptions, resolveNetworkOptionsNoConfig, hasArg } from "@/cli/network"
 import { Filesystem } from "@/util/filesystem"
-import type { GlobalEvent } from "@opencode-ai/sdk/v2"
-import type { EventSource } from "@opencode-ai/tui/context/sdk"
+import type { GlobalEvent } from "@reimagined-ai/sdk/v2"
+import type { EventSource } from "@reimagined-ai/tui/context/sdk"
 import { writeHeapSnapshot } from "v8"
 import { ServerAuth } from "@/server/auth"
 import { validateSession } from "../tui/validate-session"
-import { win32InstallCtrlCGuard } from "@opencode-ai/tui/terminal-win32"
+import { win32InstallCtrlCGuard } from "@reimagined-ai/tui/terminal-win32"
 
 declare global {
   const OPENCODE_WORKER_PATH: string
@@ -71,12 +71,12 @@ export function resolveThreadDirectory(project?: string, envPWD = process.env.PW
 
 export const TuiThreadCommand = cmd({
   command: "$0 [project]",
-  describe: "start opencode tui",
+  describe: "start reimagined tui",
   builder: (yargs) =>
     withNetworkOptions(yargs)
       .positional("project", {
         type: "string",
-        describe: "path to start opencode in",
+        describe: "path to start reimagined in",
       })
       .option("model", {
         type: "string",
@@ -243,7 +243,7 @@ export const TuiThreadCommand = cmd({
             headers,
           }
         : {
-            url: "http://opencode.internal",
+            url: "http://reimagined.internal",
             fetch: createWorkerFetch(client),
             events: createEventSource(client),
           }

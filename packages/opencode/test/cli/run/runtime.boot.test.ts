@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { OpencodeClient, type Provider } from "@opencode-ai/sdk/v2"
-import type { Resolved } from "@opencode-ai/tui/config"
+import { OpencodeClient, type Provider } from "@reimagined-ai/sdk/v2"
+import type { Resolved } from "@reimagined-ai/tui/config"
 import { TuiConfig } from "@/config/tui"
 import { resolveDiffStyle, resolveModelInfo, resolveRunTuiConfig } from "@/cli/cmd/run/runtime.boot"
 import { createTuiResolvedConfig } from "../../fixture/tui-runtime"
@@ -203,7 +203,7 @@ describe("run runtime boot", () => {
       Promise.resolve({
         data,
         error: undefined,
-        request: new Request("https://opencode.test"),
+        request: new Request("https://reimagined.test"),
         response: new Response(),
       }),
     )
@@ -211,7 +211,7 @@ describe("run runtime boot", () => {
       Promise.resolve({
         data: configured,
         error: undefined,
-        request: new Request("https://opencode.test"),
+        request: new Request("https://reimagined.test"),
         response: new Response(),
       }),
     )
@@ -266,7 +266,7 @@ describe("run runtime boot", () => {
       Promise.resolve({
         data,
         error: undefined,
-        request: new Request("https://opencode.test"),
+        request: new Request("https://reimagined.test"),
         response: new Response(),
       }),
     )

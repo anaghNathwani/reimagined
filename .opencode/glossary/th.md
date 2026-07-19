@@ -2,13 +2,13 @@
 
 ## Sources
 
-- PR #10809: https://github.com/anomalyco/opencode/pull/10809
-- PR #11496: https://github.com/anomalyco/opencode/pull/11496
+- PR #10809: https://github.com/anomalyco/reimagined/pull/10809
+- PR #11496: https://github.com/anomalyco/reimagined/pull/11496
 
 ## Do Not Translate (Locale Additions)
 
-- `OpenCode` (preserve casing in prose; keep `opencode` only in commands, package names, paths, or code)
-- `OpenCode CLI`
+- `Reimagined` (preserve casing in prose; keep `reimagined` only in commands, package names, paths, or code)
+- `Reimagined CLI`
 - `CLI`, `TUI`, `MCP`, `OAuth`
 - Commands, flags, file paths, and code literals (keep exactly as written)
 

@@ -4,7 +4,7 @@ import {
   TuiStartupProvider,
   TuiTerminalEnvironmentProvider,
   type TuiPaths,
-} from "@opencode-ai/tui/context/runtime"
+} from "@reimagined-ai/tui/context/runtime"
 import type { ParentProps } from "solid-js"
 
 export function TestTuiContexts(
@@ -17,10 +17,10 @@ export function TestTuiContexts(
   return (
     <TuiPathsProvider
       value={{
-        cwd: props.cwd ?? props.directory ?? "/tmp/opencode/packages/opencode",
-        home: "/tmp/opencode/home",
-        state: "/tmp/opencode/state",
-        worktree: "/tmp/opencode",
+        cwd: props.cwd ?? props.directory ?? "/tmp/reimagined/packages/reimagined",
+        home: "/tmp/reimagined/home",
+        state: "/tmp/reimagined/state",
+        worktree: "/tmp/reimagined",
         ...props.paths,
       }}
     >

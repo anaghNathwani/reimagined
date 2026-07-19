@@ -1,6 +1,6 @@
-import { PermissionV1 } from "@opencode-ai/core/v1/permission"
+import { PermissionV1 } from "@reimagined-ai/core/v1/permission"
 import { Permission } from "@/permission"
-import { SessionV1 } from "@opencode-ai/core/v1/session"
+import { SessionV1 } from "@reimagined-ai/core/v1/session"
 
 import { Session } from "@/session/session"
 import { MessageV2 } from "@/session/message-v2"
@@ -23,8 +23,8 @@ import {
 import { ApiNotFoundError, PermissionNotFoundError, SessionBusyError } from "../errors"
 import { described } from "./metadata"
 import { QueryBoolean } from "./query"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
 
 const root = "/session"
 export const ListQuery = Schema.Struct({
@@ -115,7 +115,7 @@ export const SessionApi = HttpApi.make("session")
           OpenApi.annotations({
             identifier: "session.list",
             summary: "List sessions",
-            description: "Get a list of all OpenCode sessions, sorted by most recently updated.",
+            description: "Get a list of all Reimagined sessions, sorted by most recently updated.",
           }),
         ),
         HttpApiEndpoint.get("status", SessionPaths.status, {
@@ -138,7 +138,7 @@ export const SessionApi = HttpApi.make("session")
           OpenApi.annotations({
             identifier: "session.get",
             summary: "Get session",
-            description: "Retrieve detailed information about a specific OpenCode session.",
+            description: "Retrieve detailed information about a specific Reimagined session.",
           }),
         ),
         HttpApiEndpoint.get("children", SessionPaths.children, {
@@ -209,7 +209,7 @@ export const SessionApi = HttpApi.make("session")
           OpenApi.annotations({
             identifier: "session.create",
             summary: "Create session",
-            description: "Create a new OpenCode session for interacting with AI assistants and managing conversations.",
+            description: "Create a new Reimagined session for interacting with AI assistants and managing conversations.",
           }),
         ),
         HttpApiEndpoint.delete("remove", SessionPaths.remove, {
@@ -455,7 +455,7 @@ export const SessionApi = HttpApi.make("session")
   )
   .annotateMerge(
     OpenApi.annotations({
-      title: "opencode experimental HttpApi",
+      title: "reimagined experimental HttpApi",
       version: "0.0.1",
       description: "Experimental HttpApi surface for selected instance routes.",
     }),

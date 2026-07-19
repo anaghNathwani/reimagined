@@ -2,9 +2,9 @@ import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
 import { ProviderTransform } from "@/provider/transform"
 import { LLMRequestPrep } from "@/session/llm/request"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { ModelsDev } from "@opencode-ai/core/models-dev"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
+import { ModelsDev } from "@reimagined-ai/core/models-dev"
 import { jsonSchema } from "ai"
 
 describe("ProviderTransform.options - setCacheKey", () => {
@@ -1494,7 +1494,7 @@ describe("ProviderTransform.schema - openai supported schema subset", () => {
   })
 
   test.each([
-    ["opencode", "@ai-sdk/openai"],
+    ["reimagined", "@ai-sdk/openai"],
     ["custom-openai-compatible", "@ai-sdk/openai"],
     ["azure", "@ai-sdk/azure"],
   ])("sanitizes %s models using %s", (providerID, npm) => {
@@ -1844,7 +1844,7 @@ describe("ProviderTransform.message - surrogate sanitization", () => {
         content: [
           { type: "text", text: text("assistant text") },
           { type: "reasoning", text: text("assistant reasoning") },
-          { type: "tool-call", toolCallId: "call-1", toolName: "Read", input: { filePath: ".opencode/tool/emoji.ts" } },
+          { type: "tool-call", toolCallId: "call-1", toolName: "Read", input: { filePath: ".reimagined/tool/emoji.ts" } },
           {
             type: "tool-result",
             toolCallId: "call-2",
@@ -2568,12 +2568,12 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
   })
 
   test("preserves metadata using providerID key when store is false", () => {
-    const opencodeModel = {
+    const reimaginedModel = {
       ...openaiModel,
-      providerID: "opencode",
+      providerID: "reimagined",
       api: {
-        id: "opencode-test",
-        url: "https://api.opencode.ai",
+        id: "reimagined-test",
+        url: "https://api.reimagined.ai",
         npm: "@ai-sdk/openai-compatible",
       },
     }
@@ -2585,7 +2585,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
             type: "text",
             text: "Hello",
             providerOptions: {
-              opencode: {
+              reimagined: {
                 itemId: "msg_123",
                 otherOption: "value",
               },
@@ -2595,19 +2595,19 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
       },
     ] as any[]
 
-    const result = ProviderTransform.message(msgs, opencodeModel, { store: false }) as any[]
+    const result = ProviderTransform.message(msgs, reimaginedModel, { store: false }) as any[]
 
-    expect(result[0].content[0].providerOptions?.opencode?.itemId).toBe("msg_123")
-    expect(result[0].content[0].providerOptions?.opencode?.otherOption).toBe("value")
+    expect(result[0].content[0].providerOptions?.reimagined?.itemId).toBe("msg_123")
+    expect(result[0].content[0].providerOptions?.reimagined?.otherOption).toBe("value")
   })
 
   test("preserves itemId across all providerOptions keys", () => {
-    const opencodeModel = {
+    const reimaginedModel = {
       ...openaiModel,
-      providerID: "opencode",
+      providerID: "reimagined",
       api: {
-        id: "opencode-test",
-        url: "https://api.opencode.ai",
+        id: "reimagined-test",
+        url: "https://api.reimagined.ai",
         npm: "@ai-sdk/openai-compatible",
       },
     }
@@ -2616,7 +2616,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
         role: "assistant",
         providerOptions: {
           openai: { itemId: "msg_root" },
-          opencode: { itemId: "msg_opencode" },
+          reimagined: { itemId: "msg_reimagined" },
           extra: { itemId: "msg_extra" },
         },
         content: [
@@ -2625,7 +2625,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
             text: "Hello",
             providerOptions: {
               openai: { itemId: "msg_openai_part" },
-              opencode: { itemId: "msg_opencode_part" },
+              reimagined: { itemId: "msg_reimagined_part" },
               extra: { itemId: "msg_extra_part" },
             },
           },
@@ -2633,13 +2633,13 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
       },
     ] as any[]
 
-    const result = ProviderTransform.message(msgs, opencodeModel, { store: false }) as any[]
+    const result = ProviderTransform.message(msgs, reimaginedModel, { store: false }) as any[]
 
     expect(result[0].providerOptions?.openai?.itemId).toBe("msg_root")
-    expect(result[0].providerOptions?.opencode?.itemId).toBe("msg_opencode")
+    expect(result[0].providerOptions?.reimagined?.itemId).toBe("msg_reimagined")
     expect(result[0].providerOptions?.extra?.itemId).toBe("msg_extra")
     expect(result[0].content[0].providerOptions?.openai?.itemId).toBe("msg_openai_part")
-    expect(result[0].content[0].providerOptions?.opencode?.itemId).toBe("msg_opencode_part")
+    expect(result[0].content[0].providerOptions?.reimagined?.itemId).toBe("msg_reimagined_part")
     expect(result[0].content[0].providerOptions?.extra?.itemId).toBe("msg_extra_part")
   })
 

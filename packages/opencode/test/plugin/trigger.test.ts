@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Npm } from "@opencode-ai/core/npm"
+import { CrossSpawnSpawner } from "@reimagined-ai/core/cross-spawn-spawner"
+import { Npm } from "@reimagined-ai/core/npm"
 import path from "path"
 import { pathToFileURL } from "url"
 import { Account } from "../../src/account/account"
@@ -14,10 +14,10 @@ import { testEffect } from "../lib/effect"
 import { AccountTest } from "../fake/account"
 import { AuthTest } from "../fake/auth"
 import { NpmTest } from "../fake/npm"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
+import { AppNodeBuilder } from "@reimagined-ai/core/effect/app-node-builder"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 
 const it = testEffect(
   AppNodeBuilder.build(LayerNode.group([Plugin.node, CrossSpawnSpawner.node]), [
@@ -38,10 +38,10 @@ function withProject<A, E, R>(source: string, self: Effect.Effect<A, E, R>) {
         Effect.promise(() => Bun.write(file, source)),
         Effect.promise(() =>
           Bun.write(
-            path.join(test.directory, "opencode.json"),
+            path.join(test.directory, "reimagined.json"),
             JSON.stringify(
               {
-                $schema: "https://opencode.ai/config.json",
+                $schema: "https://reimagined.ai/config.json",
                 plugin: [pathToFileURL(file).href],
               },
               null,

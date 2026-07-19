@@ -18,14 +18,14 @@ Keep `api.keymap` as the only TUI command registration and execution surface.
 
 ## Remove Runtime Shim
 
-Delete `packages/opencode/src/cli/cmd/tui/plugin/command-shim.ts`.
+Delete `packages/reimagined/src/cli/cmd/tui/plugin/command-shim.ts`.
 
-In `packages/opencode/src/cli/cmd/tui/plugin/api.tsx`, remove:
+In `packages/reimagined/src/cli/cmd/tui/plugin/api.tsx`, remove:
 
 - the `createCommandShim` import
 - the `command: createCommandShim(...)` field from `createTuiApi(...)`
 
-In `packages/opencode/src/cli/cmd/tui/plugin/runtime.ts`, remove:
+In `packages/reimagined/src/cli/cmd/tui/plugin/runtime.ts`, remove:
 
 - the `createCommandShim` import
 - the `command: createCommandShim(...)` field from `pluginApi(...)`
@@ -63,5 +63,5 @@ Direct replacements:
 After removal, run from package directories:
 
 - `bun typecheck` in `packages/plugin`
-- `bun typecheck` in `packages/opencode`
-- TUI plugin loader tests in `packages/opencode` if runtime plugin API wiring changed
+- `bun typecheck` in `packages/reimagined`
+- TUI plugin loader tests in `packages/reimagined` if runtime plugin API wiring changed

@@ -1,6 +1,6 @@
-import type { DesktopMenuAction } from "@opencode-ai/app/desktop-menu"
-import type { WslServersPlatform } from "@opencode-ai/app/wsl/types"
-import type { UpdaterState } from "@opencode-ai/app/updater"
+import type { DesktopMenuAction } from "@reimagined-ai/app/desktop-menu"
+import type { WslServersPlatform } from "@reimagined-ai/app/wsl/types"
+import type { UpdaterState } from "@reimagined-ai/app/updater"
 export type {
   WslDistroProbe,
   WslInstalledDistro,
@@ -13,7 +13,7 @@ export type {
   WslServerRuntime,
   WslServersEvent,
   WslServersState,
-} from "@opencode-ai/app/wsl/types"
+} from "@reimagined-ai/app/wsl/types"
 
 export type ServerReadyData = {
   url: string

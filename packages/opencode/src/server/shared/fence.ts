@@ -1,11 +1,11 @@
-import { Database } from "@opencode-ai/core/database/database"
+import { Database } from "@reimagined-ai/core/database/database"
 import { inArray } from "drizzle-orm"
-import { EventSequenceTable } from "@opencode-ai/core/event/sql"
+import { EventSequenceTable } from "@reimagined-ai/core/event/sql"
 import { Workspace } from "@/control-plane/workspace"
-import type { WorkspaceV2 } from "@opencode-ai/core/workspace"
+import type { WorkspaceV2 } from "@reimagined-ai/core/workspace"
 import { Effect } from "effect"
 
-export const HEADER = "x-opencode-sync"
+export const HEADER = "x-reimagined-sync"
 export type State = Record<string, number>
 
 export function load(db: Database.Interface["db"], ids?: string[]) {

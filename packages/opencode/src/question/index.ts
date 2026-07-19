@@ -1,10 +1,10 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { Deferred, Effect, Layer, Schema, Context } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import { SessionID } from "@/session/schema"
 import { QuestionID } from "./schema"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import { QuestionV1 } from "@opencode-ai/schema/question-v1"
+import { QuestionV1 } from "@reimagined-ai/schema/question-v1"
 
 export const Option = QuestionV1.Option
 export type Option = typeof Option.Type
@@ -59,7 +59,7 @@ export interface Interface {
   readonly list: () => Effect.Effect<ReadonlyArray<Request>>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Question") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/Question") {}
 
 const layer = Layer.effect(
   Service,

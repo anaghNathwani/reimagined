@@ -1,4 +1,4 @@
-// End-to-end regression test for opencode#24432.
+// End-to-end regression test for reimagined#24432.
 //
 // Routes through the actual ai-gateway-provider + @ai-sdk/openai-compatible
 // chain that provider.ts:811 builds at runtime, with only the network boundary
@@ -13,8 +13,8 @@ import { createAiGateway } from "ai-gateway-provider"
 import { createUnified } from "ai-gateway-provider/providers/unified"
 import { ProviderTransform } from "@/provider/transform"
 import type * as Provider from "@/provider/provider"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
 
 type Captured = { url: string; outerBody: unknown }
 type ProviderOptions = Record<string, Record<string, JSONValue>>

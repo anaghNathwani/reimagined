@@ -1,4 +1,4 @@
-import type { Session } from "@opencode-ai/sdk/v2/client"
+import type { Session } from "@reimagined-ai/sdk/v2/client"
 import {
   type ComponentProps,
   createEffect,
@@ -18,23 +18,23 @@ import {
 import { makeEventListener } from "@solid-primitives/event-listener"
 import { createStore, produce } from "solid-js/store"
 import { useQuery } from "@tanstack/solid-query"
-import { Button } from "@opencode-ai/ui/button"
-import { Logo } from "@opencode-ai/ui/logo"
-import { Spinner } from "@opencode-ai/ui/spinner"
-import { ScrollView } from "@opencode-ai/ui/scroll-view"
-import { ProjectAvatar } from "@opencode-ai/ui/v2/project-avatar-v2"
-import { ButtonV2 } from "@opencode-ai/ui/v2/button-v2"
-import { Icon as IconV2 } from "@opencode-ai/ui/v2/icon"
-import { IconButtonV2 } from "@opencode-ai/ui/v2/icon-button-v2"
-import { MenuV2 } from "@opencode-ai/ui/v2/menu-v2"
-import { TooltipV2 } from "@opencode-ai/ui/v2/tooltip-v2"
+import { Button } from "@reimagined-ai/ui/button"
+import { Logo } from "@reimagined-ai/ui/logo"
+import { Spinner } from "@reimagined-ai/ui/spinner"
+import { ScrollView } from "@reimagined-ai/ui/scroll-view"
+import { ProjectAvatar } from "@reimagined-ai/ui/v2/project-avatar-v2"
+import { ButtonV2 } from "@reimagined-ai/ui/v2/button-v2"
+import { Icon as IconV2 } from "@reimagined-ai/ui/v2/icon"
+import { IconButtonV2 } from "@reimagined-ai/ui/v2/icon-button-v2"
+import { MenuV2 } from "@reimagined-ai/ui/v2/menu-v2"
+import { TooltipV2 } from "@reimagined-ai/ui/v2/tooltip-v2"
 import { getProjectAvatarVariant, useLayout, type HomeProjectSelection, type LocalProject } from "@/context/layout"
 import { useNavigate } from "@solidjs/router"
-import { base64Encode } from "@opencode-ai/core/util/encode"
-import { Icon } from "@opencode-ai/ui/icon"
+import { base64Encode } from "@reimagined-ai/core/util/encode"
+import { Icon } from "@reimagined-ai/ui/icon"
 import { usePlatform } from "@/context/platform"
 import { DateTime } from "luxon"
-import { useDialog } from "@opencode-ai/ui/context/dialog"
+import { useDialog } from "@reimagined-ai/ui/context/dialog"
 import { useDirectoryPicker } from "@/components/directory-picker"
 import { useSettingsCommand } from "@/components/settings-dialog"
 import { DialogSelectServer, useServerManagementController } from "@/components/dialog-select-server"
@@ -58,13 +58,13 @@ import { sessionTitle } from "@/utils/session-title"
 import { pathKey } from "@/utils/path-key"
 import { useGlobal } from "@/context/global"
 import { useCommand } from "@/context/command"
-import { Binary } from "@opencode-ai/core/util/binary"
+import { Binary } from "@reimagined-ai/core/util/binary"
 import { ServerRowMenu } from "@/components/server/server-row-menu"
 import { ServerHealthIndicator } from "@/components/server/server-row"
 import { type ServerHealth } from "@/utils/server-health"
 import { Persist, persisted } from "@/utils/persist"
-import { useMarked } from "@opencode-ai/ui/context/marked"
-import { preloadMarkdown } from "@opencode-ai/session-ui/markdown-cache"
+import { useMarked } from "@reimagined-ai/ui/context/marked"
+import { preloadMarkdown } from "@reimagined-ai/session-ui/markdown-cache"
 import { archiveHomeSession } from "./home-session-archive"
 import { shouldOpenSessionInBackground } from "./home-session-open"
 import { showToast } from "@/utils/toast"
@@ -673,7 +673,7 @@ export function NewHome() {
             clearNotifications={clearNotifications}
             unseenCount={unseenCount}
             openSettings={openSettings}
-            openHelp={() => platform.openLink("https://opencode.ai/desktop-feedback")}
+            openHelp={() => platform.openLink("https://reimagined.ai/desktop-feedback")}
             language={language}
             onWheel={(event) => {
               if (sessionViewport) containHomeWheel(event, sessionViewport)
@@ -780,7 +780,7 @@ export function NewHome() {
           <HomeUtilityNav
             class="flex lg:hidden"
             openSettings={openSettings}
-            openHelp={() => platform.openLink("https://opencode.ai/desktop-feedback")}
+            openHelp={() => platform.openLink("https://reimagined.ai/desktop-feedback")}
             language={language}
           />
         </div>

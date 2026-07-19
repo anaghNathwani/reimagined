@@ -1,8 +1,8 @@
-import type { Hooks, PluginInput } from "@opencode-ai/plugin"
+import type { Hooks, PluginInput } from "@reimagined-ai/plugin"
 import { OAUTH_DUMMY_KEY } from "../auth"
 import { createServer } from "http"
-import { InstallationVersion } from "@opencode-ai/core/installation/version"
-import { OauthCallbackPage } from "@opencode-ai/core/oauth/page"
+import { InstallationVersion } from "@reimagined-ai/core/installation/version"
+import { OauthCallbackPage } from "@reimagined-ai/core/oauth/page"
 
 // Public Grok-CLI OAuth client. xAI's auth server rejects loopback OAuth from
 // non-allowlisted clients, so we reuse the Grok-CLI client_id that xAI ships
@@ -88,7 +88,7 @@ function authHeaders() {
   return {
     "Content-Type": "application/x-www-form-urlencoded",
     Accept: "application/json",
-    "User-Agent": `opencode/${InstallationVersion}`,
+    "User-Agent": `reimagined/${InstallationVersion}`,
   }
 }
 
@@ -123,7 +123,7 @@ export function buildAuthorizeUrl(
 ): string {
   // `plan=generic` opts the consent screen into xAI's generic OAuth plan tier;
   // without it, accounts.x.ai rejects loopback OAuth from non-allowlisted
-  // clients. `referrer=opencode` lets xAI attribute opencode-originated
+  // clients. `referrer=reimagined` lets xAI attribute reimagined-originated
   // logins in their OAuth server logs (best-effort attribution while we
   // continue to reuse the Grok-CLI client_id).
   const params = new URLSearchParams({
@@ -136,7 +136,7 @@ export function buildAuthorizeUrl(
     state,
     nonce,
     plan: "generic",
-    referrer: "opencode",
+    referrer: "reimagined",
   })
   return `${options.authorizeUrl ?? AUTHORIZE_URL}?${params.toString()}`
 }
@@ -396,7 +396,7 @@ async function startOAuthServer(): Promise<{ port: number; redirectUri: string }
       // After listen() succeeds, install a permanent log-only listener so
       // that subsequent server errors (e.g. accept() failures, socket-level
       // errors) don't trip Node's default "unhandled error event = throw"
-      // behavior and crash the entire opencode process. Matches the silent-
+      // behavior and crash the entire reimagined process. Matches the silent-
       // swallow behavior the Codex plugin gets from its permanent
       // `oauthServer!.on("error", reject)`.
       resolve()
@@ -541,7 +541,7 @@ export async function XaiAuthPlugin(input: PluginInput, options: XaiAuthPluginOp
               }
             }
             headers.set("authorization", `Bearer ${currentAuth.access}`)
-            headers.set("User-Agent", `opencode/${InstallationVersion}`)
+            headers.set("User-Agent", `reimagined/${InstallationVersion}`)
 
             return fetch(requestInput, { ...init, headers })
           },

@@ -1,5 +1,5 @@
 import { Context, Effect, Layer, Option } from "effect"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import * as Socket from "effect/unstable/socket/Socket"
 
 export const SERVER_CLOSING_EVENT = () => new Socket.CloseEvent(1001, "server closing")
@@ -12,7 +12,7 @@ export interface Interface {
   readonly closeAll: Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/HttpApiWebSocketTracker") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/HttpApiWebSocketTracker") {}
 
 const layer = Layer.sync(Service)(() => {
   const sockets = new Set<Close>()

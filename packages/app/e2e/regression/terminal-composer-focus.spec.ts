@@ -1,9 +1,9 @@
-import { base64Encode } from "@opencode-ai/core/util/encode"
+import { base64Encode } from "@reimagined-ai/core/util/encode"
 import { expect, test, type Page } from "@playwright/test"
-import { mockOpenCodeServer } from "../utils/mock-server"
+import { mockReimaginedServer } from "../utils/mock-server"
 import { expectSessionTitle } from "../utils/waits"
 
-const directory = "C:/OpenCode/TerminalComposerFocus"
+const directory = "C:/Reimagined/TerminalComposerFocus"
 const projectID = "proj_terminal_composer_focus"
 const sessionID = "ses_terminal_composer_focus"
 const ptyID = "pty_terminal_composer_focus"
@@ -12,7 +12,7 @@ const newPtyID = "pty_terminal_composer_focus_new"
 test.use({ viewport: { width: 1440, height: 900 } })
 
 test.beforeEach(async ({ page }) => {
-  await mockOpenCodeServer(page, {
+  await mockReimaginedServer(page, {
     directory,
     project: {
       id: projectID,
@@ -25,13 +25,13 @@ test.beforeEach(async ({ page }) => {
     provider: {
       all: [
         {
-          id: "opencode",
-          name: "OpenCode",
+          id: "reimagined",
+          name: "Reimagined",
           models: { test: { id: "test", name: "Test", limit: { context: 200_000 } } },
         },
       ],
-      connected: ["opencode"],
-      default: { providerID: "opencode", modelID: "test" },
+      connected: ["reimagined"],
+      default: { providerID: "reimagined", modelID: "test" },
     },
     sessions: [
       {
@@ -195,7 +195,7 @@ test("focuses a terminal created from the new-terminal button", async ({ page })
 function seedCachedTerminal(page: Page) {
   return page.addInitScript(
     ({ terminalKey, ptyID }) => {
-      localStorage.setItem("opencode.global.dat:layout", JSON.stringify({ terminal: { height: 320, opened: true } }))
+      localStorage.setItem("reimagined.global.dat:layout", JSON.stringify({ terminal: { height: 320, opened: true } }))
       localStorage.setItem(
         terminalKey,
         JSON.stringify({

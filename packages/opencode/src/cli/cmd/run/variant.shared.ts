@@ -3,15 +3,15 @@
 // Variants are provider-specific reasoning effort levels (e.g., "high", "max").
 // Resolution priority: CLI --variant flag > saved preference > session history.
 //
-// The saved variant persists across sessions in ~/.local/state/opencode/model.json
+// The saved variant persists across sessions in ~/.local/state/reimagined/model.json
 // so your last-used variant sticks. Cycling (ctrl+t) updates both the active
 // variant and the persisted file.
 import path from "path"
-import { FSUtil } from "@opencode-ai/core/fs-util"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
+import { AppNodeBuilder } from "@reimagined-ai/core/effect/app-node-builder"
 import { Context, Effect, Layer } from "effect"
 import { makeRuntime } from "@/effect/run-service"
-import { Global } from "@opencode-ai/core/global"
+import { Global } from "@reimagined-ai/core/global"
 import { isRecord } from "@/util/record"
 import { createSession, sessionVariant, type RunSession, type SessionMessages } from "./session.shared"
 import type { RunInput, RunProvider } from "./types"
@@ -30,7 +30,7 @@ type VariantRuntime = {
   saveVariant(model: RunInput["model"], variant: string | undefined): Promise<void>
 }
 
-class Service extends Context.Service<Service, VariantService>()("@opencode/RunVariant") {}
+class Service extends Context.Service<Service, VariantService>()("@reimagined/RunVariant") {}
 
 function modelKey(provider: string, model: string): string {
   return `${provider}/${model}`

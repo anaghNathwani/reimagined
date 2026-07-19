@@ -158,5 +158,5 @@ pub fn run() {
             read_file, write_file, list_dir,
         ])
         .run(tauri::generate_context!())
-        .expect("error running OC Editor");
+        .expect("error running Reimagined Editor");
 }

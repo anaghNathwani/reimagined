@@ -1,9 +1,9 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { NodePath } from "@effect/platform-node"
 import { Cause, Duration, Effect, Layer, Option, Schedule, Context } from "effect"
 import path from "path"
 import type { Agent } from "../agent/agent"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { evaluate } from "@/permission/evaluate"
 import { Config } from "@/config/config"
 import { Identifier } from "../id/id"
@@ -39,12 +39,12 @@ export interface Interface {
    */
   readonly output: (text: string, options?: Options, agent?: Agent.Info) => Effect.Effect<Result>
   /**
-   * Resolved truncation limits: values from `tool_output` in opencode config, or MAX_LINES / MAX_BYTES if unset.
+   * Resolved truncation limits: values from `tool_output` in reimagined config, or MAX_LINES / MAX_BYTES if unset.
    */
   readonly limits: () => Effect.Effect<{ maxLines: number; maxBytes: number }>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Truncate") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/Truncate") {}
 
 const layer = Layer.effect(
   Service,

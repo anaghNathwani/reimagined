@@ -1,8 +1,8 @@
-import { Npm } from "@opencode-ai/core/npm"
+import { Npm } from "@reimagined-ai/core/npm"
 import type { InstanceContext } from "../project/instance-context"
 import { Filesystem } from "@/util/filesystem"
 import { Process } from "@/util/process"
-import { which } from "@opencode-ai/core/util/which"
+import { which } from "@reimagined-ai/core/util/which"
 
 export interface Context extends Pick<InstanceContext, "directory" | "worktree"> {
   experimentalOxfmt: boolean

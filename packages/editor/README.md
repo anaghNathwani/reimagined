@@ -1,4 +1,4 @@
-# OC Editor
+# Reimagined Editor
 
 A native macOS code editor built with Swift + WKWebView, embedding Monaco Editor with glass morphism aesthetics. Designed for division-of-labor workflows where you edit your own code while AI agents handle delegated tasks.
 
@@ -9,7 +9,7 @@ A native macOS code editor built with Swift + WKWebView, embedding Monaco Editor
 - **Agent management panel** showing active subagents and task status in real-time
 - **Task composer**: describe a task → pick an agent → dispatch. Agents run independently.
 - **⌘T** shortcut: select code in editor → dispatch selected text as agent task
-- Connects to opencode server (port 4096) for real-time agent status
+- Connects to reimagined server (port 4096) for real-time agent status
 - Offline capable (Monaco bundled locally via `scripts/download-monaco.sh`)
 
 ## Architecture
@@ -20,7 +20,7 @@ macOS App (Swift/SwiftUI)
 ├── SidebarView.swift        — file tree + task composer
 ├── MonacoEditorView.swift   — WKWebView wrapping Monaco
 ├── AgentPanelView.swift     — subagent task cards with live status
-├── AgentStore.swift         — connects to opencode HTTP API (port 4096)
+├── AgentStore.swift         — connects to reimagined HTTP API (port 4096)
 └── Resources/
     ├── editor.html          — Monaco shell with glass-morphism CSS
     └── monaco/              — bundled Monaco (run scripts/download-monaco.sh)
@@ -28,8 +28,8 @@ macOS App (Swift/SwiftUI)
 
 ## Install
 
-### Via opencode slash command
-In any opencode session, type:
+### Via reimagined slash command
+In any reimagined session, type:
 ```
 /editor
 ```
@@ -39,7 +39,7 @@ In any opencode session, type:
 # Download Monaco for offline use (optional)
 bash scripts/download-monaco.sh
 
-# Build and install to /Applications/OC Editor.app
+# Build and install to /Applications/Reimagined Editor.app
 bash install.sh
 ```
 
@@ -48,7 +48,7 @@ bash install.sh
 - macOS 14.0+
 - Xcode Command Line Tools (`xcode-select --install`)
 - Swift 5.9+
-- opencode running locally (`opencode serve` on port 4096)
+- reimagined running locally (`reimagined serve` on port 4096)
 
 ## Division of Labor
 

@@ -2,18 +2,18 @@ import { afterEach, describe, expect, mock } from "bun:test"
 import { mkdir } from "node:fs/promises"
 import path from "node:path"
 import { Effect, Layer, Stream } from "effect"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { Flag } from "@opencode-ai/core/flag/flag"
+import { AppNodeBuilder } from "@reimagined-ai/core/effect/app-node-builder"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { Flag } from "@reimagined-ai/core/flag/flag"
 import { registerAdapter } from "../../src/control-plane/adapters"
-import { WorkspaceV2 } from "@opencode-ai/core/workspace"
+import { WorkspaceV2 } from "@reimagined-ai/core/workspace"
 import type { WorkspaceAdapter } from "../../src/control-plane/types"
 import { Workspace } from "../../src/control-plane/workspace"
 import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace"
 import { EventPaths } from "../../src/server/routes/instance/httpapi/groups/event"
 import { Session } from "@/session/session"
-import { Database } from "@opencode-ai/core/database/database"
-import { Ripgrep } from "@opencode-ai/core/ripgrep"
+import { Database } from "@reimagined-ai/core/database/database"
+import { Ripgrep } from "@reimagined-ai/core/ripgrep"
 import { Server } from "../../src/server/server"
 import { resetDatabase } from "../fixture/db"
 import { disposeAllInstances, provideInstance, tmpdirScoped } from "../fixture/fixture"
@@ -41,7 +41,7 @@ function requestDefault(path: string, directory: string, init: RequestInit = {})
 
 function requestServer(path: string, directory: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers)
-  headers.set("x-opencode-directory", directory)
+  headers.set("x-reimagined-directory", directory)
   return Effect.promise(() => Promise.resolve(Server.Default().app.request(path, { ...init, headers })))
 }
 
@@ -397,9 +397,9 @@ describe("workspace HttpApi", () => {
           headers: {
             "accept-encoding": "br",
             "content-type": "application/json",
-            "x-opencode-workspace": "internal",
+            "x-reimagined-workspace": "internal",
           },
-          body: JSON.stringify({ $schema: "https://opencode.ai/config.json" }),
+          body: JSON.stringify({ $schema: "https://reimagined.ai/config.json" }),
         })
 
         const responseBody = yield* response.text
@@ -416,11 +416,11 @@ describe("workspace HttpApi", () => {
               "content-type": "application/json",
               "x-target-auth": "secret",
             }),
-            body: JSON.stringify({ $schema: "https://opencode.ai/config.json" }),
+            body: JSON.stringify({ $schema: "https://reimagined.ai/config.json" }),
           },
         ])
-        expect(forwarded[0]?.headers).not.toHaveProperty("x-opencode-directory")
-        expect(forwarded[0]?.headers).not.toHaveProperty("x-opencode-workspace")
+        expect(forwarded[0]?.headers).not.toHaveProperty("x-reimagined-directory")
+        expect(forwarded[0]?.headers).not.toHaveProperty("x-reimagined-workspace")
 
         const eventURL = new URL(`http://localhost${EventPaths.event}`)
         eventURL.searchParams.set("workspace", workspace.id)

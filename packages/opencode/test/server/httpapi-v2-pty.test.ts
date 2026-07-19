@@ -6,9 +6,9 @@ import * as Socket from "effect/unstable/socket/Socket"
 import path from "path"
 import { pathToFileURL } from "url"
 import { mkdir } from "fs/promises"
-import { Location } from "@opencode-ai/core/location"
-import { Pty } from "@opencode-ai/core/pty"
-import { PtyTicket } from "@opencode-ai/core/pty/ticket"
+import { Location } from "@reimagined-ai/core/location"
+import { Pty } from "@reimagined-ai/core/pty"
+import { PtyTicket } from "@reimagined-ai/core/pty/ticket"
 import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
 import { resetDatabase } from "../fixture/db"
 import { disposeAllInstances, tmpdir, tmpdirScoped } from "../fixture/fixture"
@@ -19,7 +19,7 @@ const testPty = process.platform === "win32" ? test.skip : test
 
 function request(route: string, directory: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers)
-  headers.set("x-opencode-directory", directory)
+  headers.set("x-reimagined-directory", directory)
   return HttpApiApp.webHandler().handler(
     new Request(`http://localhost${route}`, {
       ...init,
@@ -53,7 +53,7 @@ const effectIt = testEffect(
   ),
 )
 
-const directoryHeader = (dir: string) => HttpClientRequest.setHeader("x-opencode-directory", dir)
+const directoryHeader = (dir: string) => HttpClientRequest.setHeader("x-reimagined-directory", dir)
 
 const serverUrl = () => HttpServer.HttpServer.use((server) => Effect.succeed(HttpServer.formatAddress(server.address)))
 
@@ -117,7 +117,7 @@ describe("v2 pty HttpApi", () => {
 
       const token = await request(`/api/pty/${info.id}/connect-token`, tmp.path, {
         method: "POST",
-        headers: { "x-opencode-ticket": "1" },
+        headers: { "x-reimagined-ticket": "1" },
       })
       expect(token.status).toBe(200)
       const ticket = Schema.decodeUnknownSync(Location.response(PtyTicket.ConnectToken))(await token.json()).data.ticket
@@ -200,7 +200,7 @@ describe("v2 pty HttpApi", () => {
         )
         yield* Effect.promise(() =>
           Bun.write(
-            path.join(dir, "opencode.json"),
+            path.join(dir, "reimagined.json"),
             JSON.stringify({ plugin: [pathToFileURL(plugin).href], formatter: false, lsp: false }),
           ),
         )

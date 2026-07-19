@@ -1,5 +1,5 @@
-import { Icon as IconV2 } from "@opencode-ai/ui/v2/icon"
-import { IconButtonV2 } from "@opencode-ai/ui/v2/icon-button-v2"
+import { Icon as IconV2 } from "@reimagined-ai/ui/v2/icon"
+import { IconButtonV2 } from "@reimagined-ai/ui/v2/icon-button-v2"
 import { createSignal, Show } from "solid-js"
 import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer"
 import { usePlatform } from "@/context/platform"
@@ -91,7 +91,7 @@ export function TabsInfoPopup() {
             Introducing Tabs
           </p>
           <div class="flex w-full flex-1 flex-col gap-4 text-[13px] font-[440] leading-5 tracking-[-0.04px] text-v2-text-text-base">
-            <p>OpenCode Desktop is now built around tabs.</p>
+            <p>Reimagined Desktop is now built around tabs.</p>
             <img src={tabsImage} alt="" class="aspect-video w-full rounded-[6px] object-cover" />
             <p>
               Start a new session in a tab, or open an existing session from any of your projects. Open a new tab when

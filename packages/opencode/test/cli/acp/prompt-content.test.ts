@@ -10,14 +10,14 @@ import { createAcpClient, initialize, newSession, verifierConfig } from "./helpe
 
 const tinyPng = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
 
-describe("opencode acp prompt content subprocess", () => {
+describe("reimagined acp prompt content subprocess", () => {
   cliIt.live(
     "accepts embedded text resource image and file resource link prompt content",
-    ({ home, llm, opencode }) =>
+    ({ home, llm, reimagined }) =>
       Effect.gen(function* () {
         yield* Effect.promise(() => writeFile(path.join(home, "README.md"), "# ACP content smoke\n"))
         const acp = yield* createAcpClient(
-          { opencode },
+          { reimagined },
           { OPENCODE_CONFIG_CONTENT: JSON.stringify(promptContentConfig(llm.url)) },
         )
         yield* initialize(acp)

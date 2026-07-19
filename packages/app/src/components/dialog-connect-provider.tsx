@@ -1,17 +1,17 @@
-import type { ProviderAuthAuthorization, ProviderAuthMethod } from "@opencode-ai/sdk/v2/client"
-import { Button } from "@opencode-ai/ui/button"
-import { useDialog } from "@opencode-ai/ui/context/dialog"
-import { Dialog } from "@opencode-ai/ui/dialog"
-import { Icon } from "@opencode-ai/ui/icon"
-import { IconButton } from "@opencode-ai/ui/icon-button"
-import { List, type ListRef } from "@opencode-ai/ui/list"
-import { ProviderIcon } from "@opencode-ai/ui/provider-icon"
-import { Spinner } from "@opencode-ai/ui/spinner"
-import { Tag } from "@opencode-ai/ui/tag"
-import { TextField } from "@opencode-ai/ui/text-field"
-import { ButtonV2 } from "@opencode-ai/ui/v2/button-v2"
-import { DialogBody, DialogHeader, DialogTitle, DialogV2 } from "@opencode-ai/ui/v2/dialog-v2"
-import { TextInputV2 } from "@opencode-ai/ui/v2/text-input-v2"
+import type { ProviderAuthAuthorization, ProviderAuthMethod } from "@reimagined-ai/sdk/v2/client"
+import { Button } from "@reimagined-ai/ui/button"
+import { useDialog } from "@reimagined-ai/ui/context/dialog"
+import { Dialog } from "@reimagined-ai/ui/dialog"
+import { Icon } from "@reimagined-ai/ui/icon"
+import { IconButton } from "@reimagined-ai/ui/icon-button"
+import { List, type ListRef } from "@reimagined-ai/ui/list"
+import { ProviderIcon } from "@reimagined-ai/ui/provider-icon"
+import { Spinner } from "@reimagined-ai/ui/spinner"
+import { Tag } from "@reimagined-ai/ui/tag"
+import { TextField } from "@reimagined-ai/ui/text-field"
+import { ButtonV2 } from "@reimagined-ai/ui/v2/button-v2"
+import { DialogBody, DialogHeader, DialogTitle, DialogV2 } from "@reimagined-ai/ui/v2/dialog-v2"
+import { TextInputV2 } from "@reimagined-ai/ui/v2/text-input-v2"
 import { showToast } from "@/utils/toast"
 import {
   type Accessor,
@@ -163,7 +163,7 @@ function ProviderPicker(props: {
     if (id === "anthropic") return language.t("dialog.provider.anthropic.note")
     if (id === "openai") return language.t("dialog.provider.openai.note")
     if (id.startsWith("github-copilot")) return language.t("dialog.provider.copilot.note")
-    if (id === "opencode-go") return language.t("dialog.provider.opencodeGo.tagline")
+    if (id === "reimagined-go") return language.t("dialog.provider.reimaginedGo.tagline")
     return undefined
   }
 
@@ -202,17 +202,17 @@ function ProviderPicker(props: {
         <div class="px-1.25 w-full flex items-center gap-x-3">
           <ProviderIcon data-slot="list-item-extra-icon" id={i.id} />
           <span>{i.name}</span>
-          <Show when={i.id === "opencode"}>
-            <div class="text-14-regular text-text-weak">{language.t("dialog.provider.opencode.tagline")}</div>
+          <Show when={i.id === "reimagined"}>
+            <div class="text-14-regular text-text-weak">{language.t("dialog.provider.reimagined.tagline")}</div>
           </Show>
           <Show when={i.id === CUSTOM_ID}>
             <Tag>{language.t("settings.providers.tag.custom")}</Tag>
           </Show>
-          <Show when={i.id === "opencode"}>
+          <Show when={i.id === "reimagined"}>
             <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
           </Show>
           <Show when={note(i.id)}>{(value) => <div class="text-14-regular text-text-weak">{value()}</div>}</Show>
-          <Show when={i.id === "opencode-go"}>
+          <Show when={i.id === "reimagined-go"}>
             <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
           </Show>
         </div>
@@ -235,7 +235,7 @@ function ProviderPickerV2(props: {
     active: undefined as string | undefined,
     connecting: undefined as string | undefined,
   })
-  const featured = ["opencode", "opencode-go", "anthropic", "openai", "google", "openrouter", "vercel"]
+  const featured = ["reimagined", "reimagined-go", "anthropic", "openai", "google", "openrouter", "vercel"]
   const custom = () => ({ id: CUSTOM_ID, name: language.t("dialog.provider.custom.label") })
   const all = createMemo(() => {
     language.locale()
@@ -344,12 +344,12 @@ function ProviderPickerV2(props: {
                       >
                         <ProviderIcon id={provider.id} class="size-4 shrink-0 text-v2-icon-icon-base" />
                         <span class="min-w-0 truncate font-[530] text-v2-text-text-base">{provider.name}</span>
-                        <Show when={provider.id === "opencode" || provider.id === "opencode-go"}>
+                        <Show when={provider.id === "reimagined" || provider.id === "reimagined-go"}>
                           <span class="min-w-0 truncate font-[440] text-v2-text-text-muted">
                             {language.t(
-                              provider.id === "opencode"
-                                ? "dialog.provider.opencode.tagline"
-                                : "dialog.provider.opencodeGo.tagline",
+                              provider.id === "reimagined"
+                                ? "dialog.provider.reimagined.tagline"
+                                : "dialog.provider.reimaginedGo.tagline",
                             )}
                           </span>
                           <span class="flex h-4 shrink-0 items-center rounded-xs border-[0.5px] border-v2-border-border-base bg-v2-background-bg-layer-03 px-1 text-[11px] font-[530] leading-none tracking-[0.05px] text-v2-text-text-muted">
@@ -866,21 +866,21 @@ function ProviderConnection(props: {
       return (
         <div class="flex flex-col gap-5 px-3 text-[13px] font-[440] leading-5 tracking-[-0.04px] text-v2-text-text-muted">
           <Show
-            when={provider().id === "opencode"}
+            when={provider().id === "reimagined"}
             fallback={language.t("provider.connect.apiKey.description", { provider: provider().name })}
           >
             <div class="flex flex-col gap-5">
-              <div>{language.t("provider.connect.opencodeZen.line1")}</div>
-              <div>{language.t("provider.connect.opencodeZen.line2")}</div>
+              <div>{language.t("provider.connect.reimaginedZen.line1")}</div>
+              <div>{language.t("provider.connect.reimaginedZen.line2")}</div>
               <div>
-                {language.t("provider.connect.opencodeZen.visit.prefix")}
+                {language.t("provider.connect.reimaginedZen.visit.prefix")}
                 <Link
-                  href="https://opencode.ai/zen"
+                  href="https://reimagined.ai/zen"
                   class="text-v2-text-text-base focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-v2-border-border-focus"
                 >
-                  {language.t("provider.connect.opencodeZen.visit.link")}
+                  {language.t("provider.connect.reimaginedZen.visit.link")}
                 </Link>
-                {language.t("provider.connect.opencodeZen.visit.suffix")}
+                {language.t("provider.connect.reimaginedZen.visit.suffix")}
               </div>
             </div>
           </Show>
@@ -917,16 +917,16 @@ function ProviderConnection(props: {
     return (
       <div class="flex flex-col gap-6">
         <Switch>
-          <Match when={provider().id === "opencode"}>
+          <Match when={provider().id === "reimagined"}>
             <div class="flex flex-col gap-4">
-              <div class="text-14-regular text-text-base">{language.t("provider.connect.opencodeZen.line1")}</div>
-              <div class="text-14-regular text-text-base">{language.t("provider.connect.opencodeZen.line2")}</div>
+              <div class="text-14-regular text-text-base">{language.t("provider.connect.reimaginedZen.line1")}</div>
+              <div class="text-14-regular text-text-base">{language.t("provider.connect.reimaginedZen.line2")}</div>
               <div class="text-14-regular text-text-base">
-                {language.t("provider.connect.opencodeZen.visit.prefix")}
-                <Link href="https://opencode.ai/zen" tabIndex={-1}>
-                  {language.t("provider.connect.opencodeZen.visit.link")}
+                {language.t("provider.connect.reimaginedZen.visit.prefix")}
+                <Link href="https://reimagined.ai/zen" tabIndex={-1}>
+                  {language.t("provider.connect.reimaginedZen.visit.link")}
                 </Link>
-                {language.t("provider.connect.opencodeZen.visit.suffix")}
+                {language.t("provider.connect.reimaginedZen.visit.suffix")}
               </div>
             </div>
           </Match>

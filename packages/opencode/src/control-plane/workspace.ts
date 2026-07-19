@@ -1,29 +1,29 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { httpClient } from "@opencode-ai/core/effect/app-node-platform"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { httpClient } from "@reimagined-ai/core/effect/app-node-platform"
 import { Context, Effect, FiberMap, Iterable, Layer, Schema, Stream } from "effect"
-import { serviceUse } from "@opencode-ai/core/effect/service-use"
+import { serviceUse } from "@reimagined-ai/core/effect/service-use"
 import { FetchHttpClient, HttpBody, HttpClient, HttpClientError, HttpClientRequest } from "effect/unstable/http"
-import { Database } from "@opencode-ai/core/database/database"
+import { Database } from "@reimagined-ai/core/database/database"
 import { asc } from "drizzle-orm"
 import { eq } from "drizzle-orm"
 import { inArray } from "drizzle-orm"
 import { Project } from "@/project/project"
 import { GlobalBus } from "@/bus/global"
 import { Auth } from "@/auth"
-import { EventV2 } from "@opencode-ai/core/event"
+import { EventV2 } from "@reimagined-ai/core/event"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import { EventSequenceTable, EventTable } from "@opencode-ai/core/event/sql"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { EventSequenceTable, EventTable } from "@reimagined-ai/core/event/sql"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { ProjectV2 } from "@opencode-ai/core/project"
-import { Slug } from "@opencode-ai/core/util/slug"
-import { WorkspaceTable } from "@opencode-ai/core/control-plane/workspace.sql"
+import { ProjectV2 } from "@reimagined-ai/core/project"
+import { Slug } from "@reimagined-ai/core/util/slug"
+import { WorkspaceTable } from "@reimagined-ai/core/control-plane/workspace.sql"
 import { getAdapter, registeredAdapters } from "./adapters"
 import { type Target, type WorkspaceInfo, WorkspaceInfo as WorkspaceInfoSchema } from "./types"
-import { WorkspaceV2 } from "@opencode-ai/core/workspace"
+import { WorkspaceV2 } from "@reimagined-ai/core/workspace"
 import { Session } from "@/session/session"
 import { SessionPrompt } from "@/session/prompt"
-import { SessionTable } from "@opencode-ai/core/session/sql"
+import { SessionTable } from "@reimagined-ai/core/session/sql"
 import { SessionID } from "@/session/schema"
 import { NotFoundError } from "@/storage/storage"
 import { errorData } from "@/util/error"
@@ -33,7 +33,7 @@ import { Vcs } from "@/project/vcs"
 import { InstanceStore } from "@/project/instance-store"
 import { WorkspaceAdapterRuntime } from "./workspace-adapter-runtime"
 import { AppNodeBuilderV1 } from "@/effect/app-node-builder-v1"
-import { WorkspaceEvent } from "@opencode-ai/schema/workspace-event"
+import { WorkspaceEvent } from "@reimagined-ai/schema/workspace-event"
 
 export const Info = Schema.Struct({
   ...WorkspaceInfoSchema.fields,
@@ -146,7 +146,7 @@ export interface Interface {
   readonly startWorkspaceSyncing: (projectID: ProjectV2.ID) => Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Workspace") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/Workspace") {}
 
 export const use = serviceUse(Service)
 

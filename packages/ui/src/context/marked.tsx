@@ -6,8 +6,8 @@ import { createSimpleContext } from "./helper"
 import { markedCodeSpanBoundary } from "./marked-code-span"
 import { getSharedHighlighter, registerCustomTheme, ThemeRegistrationResolved } from "@pierre/diffs"
 
-export const OpenCodeTheme = {
-  name: "OpenCode",
+export const ReimaginedTheme = {
+  name: "Reimagined",
   bg: "var(--color-background-stronger)",
   fg: "var(--text-base)",
   colors: {
@@ -377,7 +377,7 @@ export const OpenCodeTheme = {
   },
 } as unknown as ThemeRegistrationResolved
 
-registerCustomTheme("OpenCode", () => Promise.resolve(OpenCodeTheme))
+registerCustomTheme("Reimagined", () => Promise.resolve(ReimaginedTheme))
 
 function renderMathInText(text: string): string {
   let result = text
@@ -482,7 +482,7 @@ async function highlightCodeBlocks(html: string): Promise<string> {
   if (matches.length === 0) return html
 
   const highlighter = await getSharedHighlighter({
-    themes: ["OpenCode"],
+    themes: ["Reimagined"],
     langs: [],
     preferredHighlighter: "shiki-wasm",
   })
@@ -507,7 +507,7 @@ async function highlightCodeBlocks(html: string): Promise<string> {
 
     const highlighted = highlighter.codeToHtml(code, {
       lang: language,
-      theme: "OpenCode",
+      theme: "Reimagined",
       tabindex: false,
     })
     result = result.replace(fullMatch, () => highlighted)
@@ -535,7 +535,7 @@ export const { use: useMarked, provider: MarkedProvider } = createSimpleContext(
       markedShiki({
         async highlight(code, lang) {
           const highlighter = await getSharedHighlighter({
-            themes: ["OpenCode"],
+            themes: ["Reimagined"],
             langs: [],
             preferredHighlighter: "shiki-wasm",
           })
@@ -547,7 +547,7 @@ export const { use: useMarked, provider: MarkedProvider } = createSimpleContext(
           }
           return highlighter.codeToHtml(code, {
             lang: lang || "text",
-            theme: "OpenCode",
+            theme: "Reimagined",
             tabindex: false,
           })
         },

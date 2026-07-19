@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import { NodeHttpServer, NodeServices } from "@effect/platform-node"
-import { PtyID } from "@opencode-ai/core/pty/schema"
+import { PtyID } from "@reimagined-ai/core/pty/schema"
 import { Server } from "../../src/server/server"
 import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty"
 import { resetDatabase } from "../fixture/db"
@@ -9,7 +9,7 @@ import { Config, Effect, Layer, Queue, Schema } from "effect"
 import { HttpClient, HttpClientRequest, HttpRouter, HttpServer } from "effect/unstable/http"
 import * as Socket from "effect/unstable/socket/Socket"
 import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { Pty } from "@opencode-ai/core/pty"
+import { Pty } from "@reimagined-ai/core/pty"
 import { testEffect } from "../lib/effect"
 
 const testPty = process.platform === "win32" ? test.skip : test
@@ -50,7 +50,7 @@ function serverUrl() {
   return HttpServer.HttpServer.use((server) => Effect.succeed(HttpServer.formatAddress(server.address)))
 }
 
-const directoryHeader = (dir: string) => HttpClientRequest.setHeader("x-opencode-directory", dir)
+const directoryHeader = (dir: string) => HttpClientRequest.setHeader("x-reimagined-directory", dir)
 
 afterEach(async () => {
   await disposeAllInstances()
@@ -60,7 +60,7 @@ afterEach(async () => {
 describe("pty HttpApi bridge", () => {
   test("serves available shell list through experimental Effect routes", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const response = await app().request(PtyPaths.shells, { headers: { "x-opencode-directory": tmp.path } })
+    const response = await app().request(PtyPaths.shells, { headers: { "x-reimagined-directory": tmp.path } })
 
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual(
@@ -76,7 +76,7 @@ describe("pty HttpApi bridge", () => {
 
   testPty("serves PTY JSON routes through experimental Effect routes", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
     const list = await app().request(PtyPaths.list, { headers })
     expect(list.status).toBe(200)
     expect(await list.json()).toEqual([])
@@ -138,7 +138,7 @@ describe("pty HttpApi bridge", () => {
 
   testPty("hides exited sessions on the legacy surface", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
     const created = await app().request(PtyPaths.create, {
       method: "POST",
       headers: { ...headers, "content-type": "application/json" },
@@ -165,7 +165,7 @@ describe("pty HttpApi bridge", () => {
 
   testPty("disposes PTY sessions with their legacy instance", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
     const created = await app().request(PtyPaths.create, {
       method: "POST",
       headers: { ...headers, "content-type": "application/json" },
@@ -183,7 +183,7 @@ describe("pty HttpApi bridge", () => {
   test("returns 404 for missing PTY websocket before upgrade", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
     const response = await app().request(PtyPaths.connect.replace(":ptyID", PtyID.ascending()), {
-      headers: { "x-opencode-directory": tmp.path },
+      headers: { "x-reimagined-directory": tmp.path },
     })
     expect(response.status).toBe(404)
   })
@@ -191,14 +191,14 @@ describe("pty HttpApi bridge", () => {
   test("returns 404 for missing PTY websocket before decoding cursor query", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
     const response = await app().request(`${PtyPaths.connect.replace(":ptyID", PtyID.ascending())}?cursor=a&cursor=b`, {
-      headers: { "x-opencode-directory": tmp.path },
+      headers: { "x-reimagined-directory": tmp.path },
     })
     expect(response.status).toBe(404)
   })
 
   test("returns typed not found errors for missing PTY HTTP resources", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
     const missingID = String(PtyID.ascending())
     const expected = {
       _tag: "PtyNotFoundError",
@@ -225,7 +225,7 @@ describe("pty HttpApi bridge", () => {
 
   test("returns typed errors for PTY connect token failures", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
     const missingID = String(PtyID.ascending())
 
     const forbidden = await app().request(PtyPaths.connectToken.replace(":ptyID", missingID), {
@@ -242,7 +242,7 @@ describe("pty HttpApi bridge", () => {
       method: "POST",
       headers: {
         ...headers,
-        "x-opencode-ticket": "1",
+        "x-reimagined-ticket": "1",
       },
     })
     expect(missing.status).toBe(404)

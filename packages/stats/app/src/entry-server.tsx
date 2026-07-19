@@ -6,7 +6,7 @@ import { dir, localeFromRequest, tag } from "./lib/language"
 const statsThemePreloadScript = `;(function () {
   var preference = "system"
   try {
-    var stored = localStorage.getItem("opencode:stats-theme")
+    var stored = localStorage.getItem("reimagined:stats-theme")
     if (stored === "dark" || stored === "light" || stored === "system") preference = stored
   } catch (_) {}
   document.documentElement.dataset.statsTheme = preference

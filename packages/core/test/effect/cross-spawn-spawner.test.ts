@@ -5,8 +5,8 @@ import path from "node:path"
 import { Effect, Exit, Stream } from "effect"
 import type * as PlatformError from "effect/PlatformError"
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
-import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { CrossSpawnSpawner } from "@reimagined-ai/core/cross-spawn-spawner"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { testEffect } from "../lib/effect"
 
 const live = LayerNode.compile(CrossSpawnSpawner.node)
@@ -41,7 +41,7 @@ function alive(pid: number) {
 }
 
 async function tmpdir() {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "opencode-core-test-"))
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "reimagined-core-test-"))
   return {
     path: dir,
     async [Symbol.asyncDispose]() {

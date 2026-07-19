@@ -1,8 +1,8 @@
-import type { GlobalEvent } from "@opencode-ai/sdk/v2"
-import type { EventSource } from "@opencode-ai/tui/context/sdk"
+import type { GlobalEvent } from "@reimagined-ai/sdk/v2"
+import type { EventSource } from "@reimagined-ai/tui/context/sdk"
 
-export const worktree = "/tmp/opencode"
-export const directory = `${worktree}/packages/opencode`
+export const worktree = "/tmp/reimagined"
+export const directory = `${worktree}/packages/reimagined`
 
 export function json(data: unknown, init?: ResponseInit) {
   return new Response(JSON.stringify(data), {

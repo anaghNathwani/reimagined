@@ -1,4 +1,4 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { Context, Effect, Layer } from "effect"
 
 import { InstanceState } from "@/effect/instance-state"
@@ -17,12 +17,12 @@ import type { Provider } from "@/provider/provider"
 import type { Agent } from "@/agent/agent"
 import { Permission } from "@/permission"
 import { Skill } from "@/skill"
-import { AbsolutePath } from "@opencode-ai/core/schema"
-import { Location } from "@opencode-ai/core/location"
-import { LocationServiceMap, locationServiceMapLayer } from "@opencode-ai/core/location-services"
-import { Reference } from "@opencode-ai/core/reference"
+import { AbsolutePath } from "@reimagined-ai/core/schema"
+import { Location } from "@reimagined-ai/core/location"
+import { LocationServiceMap, locationServiceMapLayer } from "@reimagined-ai/core/location-services"
+import { Reference } from "@reimagined-ai/core/reference"
 import { MCP } from "@/mcp"
-import { PermissionV1 } from "@opencode-ai/core/v1/permission"
+import { PermissionV1 } from "@reimagined-ai/core/v1/permission"
 
 export function provider(model: Provider.Model) {
   if (model.api.id.includes("muse-spark")) return [PROMPT_META]
@@ -47,7 +47,7 @@ export interface Interface {
   readonly mcp: (agent: Agent.Info, permission?: PermissionV1.Ruleset) => Effect.Effect<string | undefined>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/SystemPrompt") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/SystemPrompt") {}
 
 const layer = Layer.effect(
   Service,

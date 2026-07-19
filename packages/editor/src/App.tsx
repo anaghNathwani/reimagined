@@ -68,7 +68,7 @@ export default function App() {
           data-tauri-drag-region
           style={{ flex: 1, "font-size": "12px", "font-weight": 500, color: "rgba(255,255,255,0.35)", "pointer-events": "none", "user-select": "none" }}
         >
-          {projectPath() ? projectPath().split("/").pop() : "OC Editor"}
+          {projectPath() ? projectPath().split("/").pop() : "Reimagined Editor"}
         </span>
         <TitleBtn title="Open Folder (⌘O)"      onClick={openFolder}                             icon="📁" />
         <TitleBtn title="Go to File (⌘P)"       onClick={() => setPalette("files")}              icon="🔍" />

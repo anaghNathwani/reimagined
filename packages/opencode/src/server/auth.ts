@@ -1,7 +1,7 @@
 export * as ServerAuth from "./auth"
 
 import { ConfigService } from "@/effect/config-service"
-import { Flag } from "@opencode-ai/core/flag/flag"
+import { Flag } from "@reimagined-ai/core/flag/flag"
 import { Config as EffectConfig, Context, Option, Redacted } from "effect"
 
 export type Credentials = {
@@ -14,9 +14,9 @@ export type DecodedCredentials = {
   readonly password: Redacted.Redacted
 }
 
-export class Config extends ConfigService.Service<Config>()("@opencode/ServerAuthConfig", {
+export class Config extends ConfigService.Service<Config>()("@reimagined/ServerAuthConfig", {
   password: EffectConfig.string("OPENCODE_SERVER_PASSWORD").pipe(EffectConfig.option),
-  username: EffectConfig.string("OPENCODE_SERVER_USERNAME").pipe(EffectConfig.withDefault("opencode")),
+  username: EffectConfig.string("OPENCODE_SERVER_USERNAME").pipe(EffectConfig.withDefault("reimagined")),
 }) {}
 
 export type Info = Context.Service.Shape<typeof Config>
@@ -37,7 +37,7 @@ export function header(credentials?: Credentials) {
   const password = credentials?.password ?? Flag.OPENCODE_SERVER_PASSWORD
   if (!password) return undefined
 
-  const username = credentials?.username ?? Flag.OPENCODE_SERVER_USERNAME ?? "opencode"
+  const username = credentials?.username ?? Flag.OPENCODE_SERVER_USERNAME ?? "reimagined"
   return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`
 }
 

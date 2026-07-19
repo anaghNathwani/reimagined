@@ -2,7 +2,7 @@
 
 ## Goal
 
-Trim `packages/opencode/src/server/routes/instance/httpapi/public.ts` until OpenAPI generation is mostly a direct projection of the `HttpApi` route declarations, without breaking the generated SDK surface.
+Trim `packages/reimagined/src/server/routes/instance/httpapi/public.ts` until OpenAPI generation is mostly a direct projection of the `HttpApi` route declarations, without breaking the generated SDK surface.
 
 The main failure mode to eliminate is spec-only behavior: anything that appears in `/doc` or the SDK but is not accepted by runtime `HttpApi` validation.
 
@@ -32,7 +32,7 @@ Current combined PR scope:
 
 ### PR 1: Add OpenAPI/Runtime Query Drift Tests
 
-- `[x]` Add or extend `packages/opencode/test/server/httpapi-query-schema-drift.test.ts`.
+- `[x]` Add or extend `packages/reimagined/test/server/httpapi-query-schema-drift.test.ts`.
 - `[x]` Import `OpenApi.fromApi` and `PublicApi`.
 - `[x]` Generate the public spec in-process with `OpenApi.fromApi(PublicApi)`.
 - `[x]` Add a route inventory for the existing runtime reproducers: `session`, `file`, `experimental`, and `instance` routes.
@@ -42,12 +42,12 @@ Current combined PR scope:
 
 Verification:
 
-- `[x]` `bun test --timeout 5000 test/server/httpapi-query-schema-drift.test.ts` from `packages/opencode`.
-- `[x]` `bun typecheck` from `packages/opencode`.
+- `[x]` `bun test --timeout 5000 test/server/httpapi-query-schema-drift.test.ts` from `packages/reimagined`.
+- `[x]` `bun typecheck` from `packages/reimagined`.
 
 ### PR 2: Delete Spec-Only Workspace Query Injection
 
-- `[x]` Edit `packages/opencode/src/server/routes/instance/httpapi/public.ts`.
+- `[x]` Edit `packages/reimagined/src/server/routes/instance/httpapi/public.ts`.
 - `[x]` Delete `InstanceQueryParameters`.
 - `[x]` Delete the `isInstanceRoute` constant.
 - `[x]` Delete the branch that prepends `directory` and `workspace` to every instance operation.
@@ -68,15 +68,15 @@ for (const param of operation.parameters ?? []) normalizeParameter(param, `${met
 
 Verification:
 
-- `[x]` `bun test --timeout 5000 test/server/httpapi-query-schema-drift.test.ts` from `packages/opencode`.
-- `[x]` `bun dev generate > /tmp/opencode-openapi.json` from `packages/opencode`.
+- `[x]` `bun test --timeout 5000 test/server/httpapi-query-schema-drift.test.ts` from `packages/reimagined`.
+- `[x]` `bun dev generate > /tmp/reimagined-openapi.json` from `packages/reimagined`.
 - `[x]` `./packages/sdk/js/script/build.ts` from repo root.
 - `[x]` Inspect SDK diff for removed `directory` / `workspace` params. Result: none after explicit runtime schemas; v2 list/message now also expose their existing beta pagination/filter query params in the SDK.
-- `[x]` `bun typecheck` from `packages/opencode`.
+- `[x]` `bun typecheck` from `packages/reimagined`.
 
 ### PR 3: Replace Broad Query Type Override Sets With Route-Level Helpers
 
-- Edit `packages/opencode/src/server/routes/instance/httpapi/public.ts`.
+- Edit `packages/reimagined/src/server/routes/instance/httpapi/public.ts`.
 - Remove broad name-based assumptions from `QueryNumberParameters` and `QueryBooleanParameters` one field at a time.
 - Add shared query schema helpers near route group code if needed, for example in `groups/metadata.ts` or a new `groups/query.ts`.
 - Prefer route declarations like `Schema.NumberFromString.check(...)` and boolean string decoders like the existing `QueryBoolean` in `groups/session.ts`.
@@ -91,15 +91,15 @@ Concrete first targets:
 Verification:
 
 - Focused HTTP tests for changed query fields.
-- `bun dev generate > /tmp/opencode-openapi.json` from `packages/opencode`.
+- `bun dev generate > /tmp/reimagined-openapi.json` from `packages/reimagined`.
 - `./packages/sdk/js/script/build.ts` from repo root.
 - Inspect generated SDK request param types before deleting each override.
-- `bun typecheck` from `packages/opencode`.
+- `bun typecheck` from `packages/reimagined`.
 
 ### PR 4: Move Path Parameter Patterns Into ID Schemas
 
 - Audit `PathParameterSchemas` and `pathParameterSchema()` in `public.ts`.
-- Check source schemas in files like `packages/opencode/src/session/schema.ts`, `packages/opencode/src/permission/schema.ts`, and pty schema definitions.
+- Check source schemas in files like `packages/reimagined/src/session/schema.ts`, `packages/reimagined/src/permission/schema.ts`, and pty schema definitions.
 - Add or fix OpenAPI-compatible annotations on branded ID schemas so generated path params include the same patterns without `public.ts` overrides.
 - Delete one path override only after generated OpenAPI is unchanged for that param.
 
@@ -115,15 +115,15 @@ Concrete first targets:
 
 Verification:
 
-- `bun dev generate > /tmp/opencode-openapi.json` from `packages/opencode`.
+- `bun dev generate > /tmp/reimagined-openapi.json` from `packages/reimagined`.
 - `./packages/sdk/js/script/build.ts` from repo root.
 - Inspect generated path param types and patterns.
-- `bun typecheck` from `packages/opencode`.
+- `bun typecheck` from `packages/reimagined`.
 
 ### PR 5: Replace Built-In Error Rewrites With Declared API Errors
 
-- Edit route group files under `packages/opencode/src/server/routes/instance/httpapi/groups/`.
-- Replace SDK-visible `HttpApiError.BadRequest` / `HttpApiError.NotFound` with explicit error schemas from `packages/opencode/src/server/routes/instance/httpapi/errors.ts` or add new ones there.
+- Edit route group files under `packages/reimagined/src/server/routes/instance/httpapi/groups/`.
+- Replace SDK-visible `HttpApiError.BadRequest` / `HttpApiError.NotFound` with explicit error schemas from `packages/reimagined/src/server/routes/instance/httpapi/errors.ts` or add new ones there.
 - Update handlers to fail with the declared API errors at the boundary.
 - Remove matching cases from `normalizeLegacyErrorResponses()` only after generated OpenAPI remains SDK-compatible.
 - Do this group by group, starting with one small route group.
@@ -137,10 +137,10 @@ Concrete first targets:
 Verification:
 
 - Focused HTTP tests asserting response body shape for changed error paths.
-- `bun dev generate > /tmp/opencode-openapi.json` from `packages/opencode`.
+- `bun dev generate > /tmp/reimagined-openapi.json` from `packages/reimagined`.
 - `./packages/sdk/js/script/build.ts` from repo root.
 - Inspect SDK error union diff.
-- `bun typecheck` from `packages/opencode`.
+- `bun typecheck` from `packages/reimagined`.
 
 ### PR 6: Remove Auth/Security Spec Rewrites If SDK Can Tolerate It
 
@@ -169,7 +169,7 @@ Concrete first targets:
 
 Verification:
 
-- `bun dev generate > /tmp/opencode-openapi.json` from `packages/opencode`.
+- `bun dev generate > /tmp/reimagined-openapi.json` from `packages/reimagined`.
 - `./packages/sdk/js/script/build.ts` from repo root.
 - Inspect generated SDK type-name and optionality diffs.
 
@@ -198,7 +198,7 @@ Once available, remove `WorkspaceRoutingQueryFields` spreads from route groups a
 
 - Focused HTTP tests for changed routes.
 - OpenAPI drift tests.
-- `bun dev generate > /tmp/opencode-openapi.json` from `packages/opencode`.
+- `bun dev generate > /tmp/reimagined-openapi.json` from `packages/reimagined`.
 - `./packages/sdk/js/script/build.ts` from repo root.
 - Inspect generated SDK diff for public API churn.
-- `bun typecheck` from `packages/opencode`.
+- `bun typecheck` from `packages/reimagined`.

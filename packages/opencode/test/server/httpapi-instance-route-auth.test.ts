@@ -5,7 +5,7 @@ import { EventPaths } from "../../src/server/routes/instance/httpapi/groups/even
 import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty"
 import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
 import { ServerAuth } from "../../src/server/auth"
-import { PtyID } from "@opencode-ai/core/pty/schema"
+import { PtyID } from "@reimagined-ai/core/pty/schema"
 import { resetDatabase } from "../fixture/db"
 import { disposeAllInstances, tmpdir } from "../fixture/fixture"
 
@@ -49,14 +49,14 @@ describe("HttpApi instance route authorization", () => {
   test("requires configured auth before opening the instance event stream", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
     const server = app({ password: "secret" })
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
 
     const missing = await server.request(EventPaths.event, { headers })
     await cancelBody(missing)
     expect(missing.status).toBe(401)
 
     const authed = await server.request(EventPaths.event, {
-      headers: { ...headers, authorization: basic("opencode", "secret") },
+      headers: { ...headers, authorization: basic("reimagined", "secret") },
     })
     await cancelBody(authed)
     expect(authed.status).toBe(200)
@@ -66,14 +66,14 @@ describe("HttpApi instance route authorization", () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
     const server = app({ password: "secret" })
     const route = PtyPaths.connect.replace(":ptyID", PtyID.ascending())
-    const headers = { "x-opencode-directory": tmp.path }
+    const headers = { "x-reimagined-directory": tmp.path }
 
     const missing = await server.request(route, { headers })
     await cancelBody(missing)
     expect(missing.status).toBe(401)
 
     const authed = await server.request(route, {
-      headers: { ...headers, authorization: basic("opencode", "secret") },
+      headers: { ...headers, authorization: basic("reimagined", "secret") },
     })
     await cancelBody(authed)
     expect(authed.status).toBe(404)

@@ -6,20 +6,20 @@ export {}
 // import { test, expect, describe } from "bun:test"
 // import path from "path"
 
-// import { ProviderV2 } from "@opencode-ai/core/provider"
+// import { ProviderV2 } from "@reimagined-ai/core/provider"
 // import { tmpdir, withTestInstance } from "../fixture/fixture"
 // import { Provider } from "@/provider/provider"
 // import { Env } from "../../src/env"
-// import { Global } from "@opencode-ai/core/global"
+// import { Global } from "@reimagined-ai/core/global"
 // import { GitLabWorkflowLanguageModel } from "gitlab-ai-provider"
 
 // test("GitLab Duo: loads provider with API key from environment", async () => {
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //         }),
 //       )
 //     },
@@ -41,9 +41,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //           provider: {
 //             gitlab: {
 //               options: {
@@ -73,9 +73,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //         }),
 //       )
 //     },
@@ -110,9 +110,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //         }),
 //       )
 //     },
@@ -146,9 +146,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //           provider: {
 //             gitlab: {
 //               options: {
@@ -178,9 +178,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //           provider: {
 //             gitlab: {
 //               options: {
@@ -208,9 +208,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //         }),
 //       )
 //     },
@@ -234,9 +234,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //           provider: {
 //             gitlab: {
 //               options: {
@@ -269,9 +269,9 @@ export {}
 //   await using tmp = await tmpdir({
 //     init: async (dir) => {
 //       await Bun.write(
-//         path.join(dir, "opencode.json"),
+//         path.join(dir, "reimagined.json"),
 //         JSON.stringify({
-//           $schema: "https://opencode.ai/config.json",
+//           $schema: "https://reimagined.ai/config.json",
 //         }),
 //       )
 //     },
@@ -297,7 +297,7 @@ export {}
 //   test("duo-workflow-* model routes through workflowChat", async () => {
 //     await using tmp = await tmpdir({
 //       init: async (dir) => {
-//         await Bun.write(path.join(dir, "opencode.json"), JSON.stringify({ $schema: "https://opencode.ai/config.json" }))
+//         await Bun.write(path.join(dir, "reimagined.json"), JSON.stringify({ $schema: "https://reimagined.ai/config.json" }))
 //       },
 //     })
 //     await withTestInstance({
@@ -345,7 +345,7 @@ export {}
 //   test("duo-chat-* model routes through agenticChat (not workflow)", async () => {
 //     await using tmp = await tmpdir({
 //       init: async (dir) => {
-//         await Bun.write(path.join(dir, "opencode.json"), JSON.stringify({ $schema: "https://opencode.ai/config.json" }))
+//         await Bun.write(path.join(dir, "reimagined.json"), JSON.stringify({ $schema: "https://reimagined.ai/config.json" }))
 //       },
 //     })
 //     await withTestInstance({
@@ -368,7 +368,7 @@ export {}
 //   test("model.options merged with provider.options in getLanguage", async () => {
 //     await using tmp = await tmpdir({
 //       init: async (dir) => {
-//         await Bun.write(path.join(dir, "opencode.json"), JSON.stringify({ $schema: "https://opencode.ai/config.json" }))
+//         await Bun.write(path.join(dir, "reimagined.json"), JSON.stringify({ $schema: "https://reimagined.ai/config.json" }))
 //       },
 //     })
 //     await withTestInstance({
@@ -392,7 +392,7 @@ export {}
 //   test("static duo-chat models always present regardless of discovery", async () => {
 //     await using tmp = await tmpdir({
 //       init: async (dir) => {
-//         await Bun.write(path.join(dir, "opencode.json"), JSON.stringify({ $schema: "https://opencode.ai/config.json" }))
+//         await Bun.write(path.join(dir, "reimagined.json"), JSON.stringify({ $schema: "https://reimagined.ai/config.json" }))
 //       },
 //     })
 //     await withTestInstance({

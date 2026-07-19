@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# Reimagined Desktop
 
-The OpenCode Desktop app, built with Electron.
+The Reimagined Desktop app, built with Electron.
 
 ## Development
 

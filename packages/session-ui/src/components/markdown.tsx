@@ -1,7 +1,7 @@
-import { useMarked } from "@opencode-ai/ui/context/marked"
-import { useI18n } from "@opencode-ai/ui/context/i18n"
+import { useMarked } from "@reimagined-ai/ui/context/marked"
+import { useI18n } from "@reimagined-ai/ui/context/i18n"
 import morphdom from "morphdom"
-import { checksum } from "@opencode-ai/core/util/encode"
+import { checksum } from "@reimagined-ai/core/util/encode"
 import {
   type Accessor,
   type ComponentProps,
@@ -15,9 +15,9 @@ import {
   splitProps,
 } from "solid-js"
 import { isServer, render } from "solid-js/web"
-import { Icon as IconV2 } from "@opencode-ai/ui/v2/icon"
-import { IconButtonV2 } from "@opencode-ai/ui/v2/icon-button-v2"
-import { TooltipV2 } from "@opencode-ai/ui/v2/tooltip-v2"
+import { Icon as IconV2 } from "@reimagined-ai/ui/v2/icon"
+import { IconButtonV2 } from "@reimagined-ai/ui/v2/icon-button-v2"
+import { TooltipV2 } from "@reimagined-ai/ui/v2/tooltip-v2"
 import { bundledLanguages } from "shiki"
 import { canReusePendingBlock, project, type Block, type Projection } from "./markdown-stream"
 import {
@@ -643,7 +643,7 @@ function updateCodeBlock(
   wrapper.setAttribute("data-component", "markdown-code")
   applyCodeMetadata(wrapper, block.language)
   const pre = document.createElement("pre")
-  pre.className = "shiki OpenCode"
+  pre.className = "shiki Reimagined"
   const codeElement = document.createElement("code")
   codeElement.className = `language-${block.language}`
   ;[...block.stable, ...block.unstable].map(createTokenSpan).forEach((span) => codeElement.appendChild(span))

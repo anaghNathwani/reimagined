@@ -1,7 +1,7 @@
 export * as ConfigAgent from "./agent"
 
 import { Schema } from "effect"
-import { Permission } from "@opencode-ai/schema/permission"
+import { Permission } from "@reimagined-ai/schema/permission"
 import { ConfigProvider } from "./provider"
 import { PositiveInt } from "../schema"
 

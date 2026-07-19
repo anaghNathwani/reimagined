@@ -1,9 +1,9 @@
 import { EOL } from "os"
 import { Effect } from "effect"
-import { ModelsDev } from "@opencode-ai/core/models-dev"
+import { ModelsDev } from "@reimagined-ai/core/models-dev"
 import { effectCmd, fail } from "../effect-cmd"
 import { UI } from "../ui"
-import { ProviderV2 } from "@opencode-ai/core/provider"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
 import { LOCAL_MODELS, downloadModel, isModelDownloaded, findModelDef } from "@/provider/local"
 
 export const ModelsCommand = effectCmd({
@@ -64,7 +64,7 @@ export const ModelsCommand = effectCmd({
       )
       process.stdout.write(EOL)
       UI.println(UI.Style.TEXT_SUCCESS_BOLD + `✓ Downloaded ${def.name}` + UI.Style.TEXT_NORMAL)
-      UI.println(`Run with: opencode --model local-openweight/${def.id}`)
+      UI.println(`Run with: reimagined --model local-openweight/${def.id}`)
       return
     }
 
@@ -81,7 +81,7 @@ export const ModelsCommand = effectCmd({
         UI.println(`  ${def.id.padEnd(22)} ${def.name}`)
         UI.println(`    RAM: ~${def.ramGb}GB  Context: ${def.contextK}K  License: ${def.license}`)
         UI.println(`    Status: ${status}`)
-        if (!downloaded) UI.println(`    Install: opencode models --download ${def.id}`)
+        if (!downloaded) UI.println(`    Install: reimagined models --download ${def.id}`)
         UI.println("")
       }
       return
@@ -120,8 +120,8 @@ export const ModelsCommand = effectCmd({
       const bIsLocal = b === "local-openweight" || b === "ollama"
       if (aIsLocal && !bIsLocal) return -1
       if (!aIsLocal && bIsLocal) return 1
-      const aIsOpencode = a.startsWith("opencode")
-      const bIsOpencode = b.startsWith("opencode")
+      const aIsOpencode = a.startsWith("reimagined")
+      const bIsOpencode = b.startsWith("reimagined")
       if (aIsOpencode && !bIsOpencode) return -1
       if (!aIsOpencode && bIsOpencode) return 1
       return a.localeCompare(b)

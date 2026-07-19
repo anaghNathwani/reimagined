@@ -2,8 +2,8 @@ import { afterEach, expect } from "bun:test"
 import { existsSync } from "node:fs"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { CrossSpawnSpawner } from "@reimagined-ai/core/cross-spawn-spawner"
 import { Cause, Effect, Exit, Fiber } from "effect"
 import { bootstrap as cliBootstrap } from "../../src/cli/bootstrap"
 import { InstanceBootstrap } from "../../src/project/bootstrap"
@@ -50,9 +50,9 @@ const bootstrapFixture = Effect.gen(function* () {
   )
   yield* Effect.promise(() =>
     Bun.write(
-      path.join(dir, "opencode.json"),
+      path.join(dir, "reimagined.json"),
       JSON.stringify({
-        $schema: "https://opencode.ai/config.json",
+        $schema: "https://reimagined.ai/config.json",
         plugin: [pathToFileURL(pluginFile).href],
       }),
     ),

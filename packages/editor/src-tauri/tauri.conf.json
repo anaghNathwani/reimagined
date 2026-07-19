@@ -1,7 +1,7 @@
 {
-  "productName": "OC Editor",
+  "productName": "Reimagined Editor",
   "version": "0.1.0",
-  "identifier": "ai.opencode.editor",
+  "identifier": "ai.reimagined.editor",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "OC Editor",
+        "title": "Reimagined Editor",
         "width": 1400,
         "height": 900,
         "minWidth": 900,

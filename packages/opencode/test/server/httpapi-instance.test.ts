@@ -1,15 +1,15 @@
-import { PermissionV1 } from "@opencode-ai/core/v1/permission"
+import { PermissionV1 } from "@reimagined-ai/core/v1/permission"
 import { NodeHttpServer, NodeServices } from "@effect/platform-node"
-import { Flag } from "@opencode-ai/core/flag/flag"
+import { Flag } from "@reimagined-ai/core/flag/flag"
 import { describe, expect } from "bun:test"
 import { Config, Context, Effect, FileSystem, Layer, Path } from "effect"
 import { HttpClient, HttpClientRequest, HttpRouter, HttpServer } from "effect/unstable/http"
 import * as Socket from "effect/unstable/socket/Socket"
-import { WorkspaceV2 } from "@opencode-ai/core/workspace"
+import { WorkspaceV2 } from "@reimagined-ai/core/workspace"
 import { ControlPaths } from "../../src/server/routes/instance/httpapi/groups/control"
 import { InstancePaths } from "../../src/server/routes/instance/httpapi/groups/instance"
 import { SessionPaths } from "../../src/server/routes/instance/httpapi/groups/session"
-import { ProjectV2 } from "@opencode-ai/core/project"
+import { ProjectV2 } from "@reimagined-ai/core/project"
 import { QuestionID } from "../../src/question/schema"
 import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
 import { HEADER as FenceHeader } from "../../src/server/shared/fence"
@@ -53,7 +53,7 @@ const httpApiServerLayer = servedRoutes.pipe(
 const it = testEffect(Layer.mergeAll(testStateLayer, httpApiServerLayer))
 const handlerContext = Context.empty() as Context.Context<unknown>
 
-const directoryHeader = (dir: string) => HttpClientRequest.setHeader("x-opencode-directory", dir)
+const directoryHeader = (dir: string) => HttpClientRequest.setHeader("x-reimagined-directory", dir)
 
 describe("instance HttpApi", () => {
   it.live("serves the OpenAPI document", () =>
@@ -128,7 +128,7 @@ describe("instance HttpApi", () => {
           HttpApiApp.webHandler().handler(
             new Request(`http://localhost${path}`, {
               ...init,
-              headers: { "x-opencode-directory": dir, "content-type": "application/json", ...init?.headers },
+              headers: { "x-reimagined-directory": dir, "content-type": "application/json", ...init?.headers },
             }),
             handlerContext,
           ),
@@ -162,7 +162,7 @@ describe("instance HttpApi", () => {
           HttpApiApp.webHandler().handler(
             new Request(`http://localhost${path}`, {
               ...init,
-              headers: { "x-opencode-directory": dir, "content-type": "application/json", ...init?.headers },
+              headers: { "x-reimagined-directory": dir, "content-type": "application/json", ...init?.headers },
             }),
             handlerContext,
           ),
@@ -214,7 +214,7 @@ describe("instance HttpApi", () => {
         HttpApiApp.webHandler().handler(
           new Request(`http://localhost/project/${projectID}`, {
             method: "PATCH",
-            headers: { "x-opencode-directory": dir, "content-type": "application/json" },
+            headers: { "x-reimagined-directory": dir, "content-type": "application/json" },
             body: JSON.stringify({ name: "Missing" }),
           }),
           handlerContext,

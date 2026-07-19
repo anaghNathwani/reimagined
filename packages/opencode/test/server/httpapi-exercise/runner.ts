@@ -1,6 +1,6 @@
-import { Flag } from "@opencode-ai/core/flag/flag"
-import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
-import { SessionV1 } from "@opencode-ai/core/v1/session"
+import { Flag } from "@reimagined-ai/core/flag/flag"
+import { ConfigV1 } from "@reimagined-ai/core/v1/config/config"
+import { SessionV1 } from "@reimagined-ai/core/v1/session"
 import { Cause, Duration, Effect, Layer, Scope } from "effect"
 import { TestLLMServer } from "../../lib/llm-server"
 import type { Config } from "../../../src/config/config"
@@ -11,8 +11,8 @@ import { call, callAuthProbe, disposeApps } from "./backend"
 import { original } from "./environment"
 import { runtime } from "./runtime"
 import type { ActiveScenario, Options, ProjectOptions, Result, Scenario, ScenarioContext, SeededContext } from "./types"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
 
 export function runScenario(options: Options) {
   return (scenario: Scenario) => {
@@ -126,7 +126,7 @@ function withContext<A, E>(
         const base: ScenarioContext = {
           directory: context.dir?.path,
           headers: (extra) => ({
-            ...(context.dir?.path ? { "x-opencode-directory": context.dir.path } : {}),
+            ...(context.dir?.path ? { "x-reimagined-directory": context.dir.path } : {}),
             ...extra,
           }),
           file: (name, content) =>
@@ -153,7 +153,7 @@ function withContext<A, E>(
                 time: { created: Date.now() },
                 agent: "build",
                 model: {
-                  providerID: ProviderV2.ID.opencode,
+                  providerID: ProviderV2.ID.reimagined,
                   modelID: ModelV2.ID.make("test"),
                 },
               }

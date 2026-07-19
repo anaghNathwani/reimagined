@@ -1,11 +1,11 @@
 export * as ConfigPaths from "./paths"
 
 import path from "path"
-import { Flag } from "@opencode-ai/core/flag/flag"
-import { Global } from "@opencode-ai/core/global"
+import { Flag } from "@reimagined-ai/core/flag/flag"
+import { Global } from "@reimagined-ai/core/global"
 import { unique } from "remeda"
 import * as Effect from "effect/Effect"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 
 export const files = Effect.fn("ConfigPaths.projectFiles")(function* (
   name: string,
@@ -26,13 +26,13 @@ export const directories = Effect.fn("ConfigPaths.directories")(function* (direc
     Global.Path.config,
     ...(!Flag.OPENCODE_DISABLE_PROJECT_CONFIG
       ? yield* afs.up({
-          targets: [".opencode"],
+          targets: [".reimagined"],
           start: directory,
           stop: worktree,
         })
       : []),
     ...(yield* afs.up({
-      targets: [".opencode"],
+      targets: [".reimagined"],
       start: Global.Path.home,
       stop: Global.Path.home,
     })),

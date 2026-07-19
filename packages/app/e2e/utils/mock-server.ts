@@ -26,7 +26,7 @@ export interface MockServerConfig {
   sessionStatus?: unknown
 }
 
-export async function mockOpenCodeServer(page: Page, config: MockServerConfig) {
+export async function mockReimaginedServer(page: Page, config: MockServerConfig) {
   const cursors = new Map<string, string>()
   let nextCursor = 0
   const staticRoutes: Record<string, unknown> = {
@@ -36,7 +36,7 @@ export async function mockOpenCodeServer(page: Page, config: MockServerConfig) {
       config: config.directory,
       worktree: config.directory,
       directory: config.directory,
-      home: "C:/OpenCode",
+      home: "C:/Reimagined",
     },
     "/project": [config.project],
     "/project/current": config.project,

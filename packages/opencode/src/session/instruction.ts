@@ -1,16 +1,16 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { httpClient } from "@opencode-ai/core/effect/app-node-platform"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { httpClient } from "@reimagined-ai/core/effect/app-node-platform"
 import path from "path"
-import { SessionV1 } from "@opencode-ai/core/v1/session"
+import { SessionV1 } from "@reimagined-ai/core/v1/session"
 import { Effect, Layer, Context } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/unstable/http"
 import { Config } from "@/config/config"
 import { InstanceState } from "@/effect/instance-state"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { Flag } from "@opencode-ai/core/flag/flag"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { Flag } from "@reimagined-ai/core/flag/flag"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { withTransientReadRetry } from "@/util/effect-http-client"
-import { Global } from "@opencode-ai/core/global"
+import { Global } from "@reimagined-ai/core/global"
 import type { MessageV2 } from "./message-v2"
 import type { MessageID } from "./schema"
 
@@ -43,7 +43,7 @@ export interface Interface {
   ) => Effect.Effect<{ filepath: string; content: string }[], FSUtil.Error>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Instruction") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/Instruction") {}
 
 const layer: Layer.Layer<
   Service,

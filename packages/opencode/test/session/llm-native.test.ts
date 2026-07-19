@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { LLMEvent, ToolFailure } from "@opencode-ai/llm"
-import { LLMClient, RequestExecutor, WebSocketExecutor, type LLMClientShape } from "@opencode-ai/llm/route"
+import { LLMEvent, ToolFailure } from "@reimagined-ai/llm"
+import { LLMClient, RequestExecutor, WebSocketExecutor, type LLMClientShape } from "@reimagined-ai/llm/route"
 import { jsonSchema, tool, type ModelMessage, type Tool } from "ai"
 import { Effect, Fiber, Layer, Stream } from "effect"
 import { FetchHttpClient } from "effect/unstable/http"
@@ -10,8 +10,8 @@ import type { Provider } from "@/provider/provider"
 
 import { OAUTH_DUMMY_KEY } from "@/auth"
 import { testEffect } from "../lib/effect"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
 
 const baseModel: Provider.Model = {
   id: ModelV2.ID.make("gpt-5-mini"),
@@ -360,7 +360,7 @@ describe("session.llm-native.request", () => {
     const compatible = LLMNative.model({
       model: {
         ...baseModel,
-        providerID: ProviderV2.ID.make("opencode"),
+        providerID: ProviderV2.ID.make("reimagined"),
         api: { ...baseModel.api, url: "https://ai.example.test/v1", npm: "@ai-sdk/openai-compatible" },
       },
       apiKey: "test-key",
@@ -394,8 +394,8 @@ describe("session.llm-native.request", () => {
     })
     expect(
       LLMNativeRuntime.status({
-        model: { ...baseModel, providerID: ProviderV2.ID.make("opencode") },
-        provider: { ...providerInfo, id: ProviderV2.ID.make("opencode") },
+        model: { ...baseModel, providerID: ProviderV2.ID.make("reimagined") },
+        provider: { ...providerInfo, id: ProviderV2.ID.make("reimagined") },
         auth: undefined,
       }),
     ).toMatchObject({
@@ -406,10 +406,10 @@ describe("session.llm-native.request", () => {
       LLMNativeRuntime.status({
         model: {
           ...baseModel,
-          providerID: ProviderV2.ID.make("opencode"),
+          providerID: ProviderV2.ID.make("reimagined"),
           api: { ...baseModel.api, npm: "@ai-sdk/openai-compatible" },
         },
-        provider: { ...providerInfo, id: ProviderV2.ID.make("opencode") },
+        provider: { ...providerInfo, id: ProviderV2.ID.make("reimagined") },
         auth: undefined,
       }),
     ).toMatchObject({
@@ -422,7 +422,7 @@ describe("session.llm-native.request", () => {
         provider: { ...providerInfo, id: ProviderV2.ID.make("google") },
         auth: undefined,
       }),
-    ).toEqual({ type: "unsupported", reason: "provider is not openai, opencode, or anthropic" })
+    ).toEqual({ type: "unsupported", reason: "provider is not openai, reimagined, or anthropic" })
     expect(
       LLMNativeRuntime.status({
         model: baseModel,
@@ -475,13 +475,13 @@ describe("session.llm-native.request", () => {
     ).toMatchObject({ type: "supported", apiKey: "test-anthropic-key" })
   })
 
-  test("prefers console provider api key over stored opencode auth", () => {
+  test("prefers console provider api key over stored reimagined auth", () => {
     expect(
       LLMNativeRuntime.status({
-        model: { ...baseModel, providerID: ProviderV2.ID.make("opencode") },
+        model: { ...baseModel, providerID: ProviderV2.ID.make("reimagined") },
         provider: {
           ...providerInfo,
-          id: ProviderV2.ID.make("opencode"),
+          id: ProviderV2.ID.make("reimagined"),
           options: { apiKey: "console-token" },
           key: "zen-token",
         },

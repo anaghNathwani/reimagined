@@ -28,7 +28,7 @@ it.effect("pure service behavior", () =>
 it.instance("instance-local behavior", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
-    expect(test.directory).toContain("opencode-test-")
+    expect(test.directory).toContain("reimagined-test-")
   }),
 )
 
@@ -44,7 +44,7 @@ it.live("live filesystem or process behavior", () =>
 
 - `it.effect(...)` — pure Effect behavior with `TestClock` and
   `TestConsole`.
-- `it.instance(...)` — service behavior that needs one scoped opencode
+- `it.instance(...)` — service behavior that needs one scoped reimagined
   instance.
 - `it.live(...)` — real time, filesystem mtimes, child processes, git,
   locks, servers, watchers, or OS behavior.
@@ -127,7 +127,7 @@ test harness.
 8. Preserve concurrency with fibers, `Deferred`, and
    `Effect.all(..., { concurrency: "unbounded" })`; do not accidentally
    serialize formerly parallel behavior.
-9. Run the focused test file and `bun typecheck` from `packages/opencode`.
+9. Run the focused test file and `bun typecheck` from `packages/reimagined`.
 
 ## Good Examples
 
@@ -149,7 +149,7 @@ Do not maintain a long file checklist here. It goes stale quickly.
 When looking for the next target, search for current anti-patterns:
 
 ```bash
-git grep -n "Effect.runPromise\|ManagedRuntime\|Promise.withResolvers\|Bun.sleep\|withTestInstance" -- packages/opencode/test
+git grep -n "Effect.runPromise\|ManagedRuntime\|Promise.withResolvers\|Bun.sleep\|withTestInstance" -- packages/reimagined/test
 ```
 
 Then choose one file or one small cluster, keep the PR focused, and mention

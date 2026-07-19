@@ -1,6 +1,6 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { Effect, Layer, Context, Schema } from "effect"
-import { SessionV1 } from "@opencode-ai/core/v1/session"
+import { SessionV1 } from "@reimagined-ai/core/v1/session"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { Snapshot } from "@/snapshot"
 import { Session } from "./session"
@@ -69,7 +69,7 @@ export interface Interface {
   readonly computeDiff: (input: { messages: SessionV1.WithParts[] }) => Effect.Effect<Snapshot.FileDiff[]>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/SessionSummary") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/SessionSummary") {}
 
 const layer = Layer.effect(
   Service,

@@ -1,10 +1,10 @@
-import { base64Encode } from "@opencode-ai/core/util/encode"
+import { base64Encode } from "@reimagined-ai/core/util/encode"
 import type { Page } from "@playwright/test"
-import { mockOpenCodeServer } from "../../utils/mock-server"
+import { mockReimaginedServer } from "../../utils/mock-server"
 import { expectAppVisible, expectSessionTitle } from "../../utils/waits"
 import { expect } from "../benchmark"
 
-const directory = "C:/OpenCode/TimelineStateRegression"
+const directory = "C:/Reimagined/TimelineStateRegression"
 const projectID = "proj_timeline_state_regression"
 const sessionID = "ses_timeline_state_regression"
 const userMessageID = "msg_user_regression"
@@ -12,7 +12,7 @@ const assistantMessageID = "msg_assistant_regression"
 const editPartID = "prt_0001_edit"
 export const textPartID = "prt_9999_text"
 const title = "Timeline collapse state regression"
-const model = { providerID: "opencode", modelID: "claude-opus-4-6", variant: "max" }
+const model = { providerID: "reimagined", modelID: "claude-opus-4-6", variant: "max" }
 
 type EventPayload = {
   directory: string
@@ -108,7 +108,7 @@ export async function setupTimelineBenchmark(
   const currentUserMessage = options.turnDiffs
     ? { ...userMessage, info: { ...userMessage.info, summary: { diffs: options.turnDiffs } } }
     : userMessage
-  await mockOpenCodeServer(page, {
+  await mockReimaginedServer(page, {
     directory,
     project: project(),
     provider: provider(),
@@ -493,12 +493,12 @@ function provider() {
   return {
     all: [
       {
-        id: "opencode",
-        name: "OpenCode",
+        id: "reimagined",
+        name: "Reimagined",
         models: { "claude-opus-4-6": { id: "claude-opus-4-6", name: "Claude Opus 4.6", limit: { context: 200_000 } } },
       },
     ],
-    connected: ["opencode"],
-    default: { providerID: "opencode", modelID: "claude-opus-4-6" },
+    connected: ["reimagined"],
+    default: { providerID: "reimagined", modelID: "claude-opus-4-6" },
   }
 }

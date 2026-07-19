@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Schema } from "effect"
-import { ProjectV2 } from "@opencode-ai/core/project"
+import { ProjectV2 } from "@reimagined-ai/core/project"
 import { MessageID, SessionID } from "../../src/session/schema"
 import { Session } from "../../src/session/session"
 
@@ -9,7 +9,7 @@ const info = {
   slug: "test-session",
   projectID: ProjectV2.ID.global,
   workspaceID: undefined,
-  directory: "/tmp/opencode",
+  directory: "/tmp/reimagined",
   parentID: undefined,
   summary: undefined,
   cost: 0,
@@ -45,7 +45,7 @@ describe("Session schema", () => {
       project: {
         id: ProjectV2.ID.global,
         name: undefined,
-        worktree: "/tmp/opencode",
+        worktree: "/tmp/reimagined",
       },
     }) as Record<string, unknown>
 

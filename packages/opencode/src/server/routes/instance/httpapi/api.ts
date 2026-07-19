@@ -1,10 +1,10 @@
 import { Schema } from "effect"
 import { HttpApi } from "effect/unstable/httpapi"
-import { EventV2 } from "@opencode-ai/core/event"
+import { EventV2 } from "@reimagined-ai/core/event"
 import { EventManifest } from "@/event-manifest"
-import { Credential } from "@opencode-ai/core/credential"
-import { Integration } from "@opencode-ai/core/integration"
-import { SkillV2 } from "@opencode-ai/core/skill"
+import { Credential } from "@reimagined-ai/core/credential"
+import { Integration } from "@reimagined-ai/core/integration"
+import { SkillV2 } from "@reimagined-ai/core/skill"
 import { InstanceDisposed } from "@/server/event"
 import { Question } from "@/question"
 import { ConfigApi } from "./groups/config"
@@ -25,9 +25,9 @@ import { SessionApi } from "./groups/session"
 import { SyncApi } from "./groups/sync"
 import { TuiApi } from "./groups/tui"
 import { WorkspaceApi } from "./groups/workspace"
-import { makeApi } from "@opencode-ai/protocol/api"
-import { LocationMiddleware } from "@opencode-ai/server/location"
-import { SessionLocationMiddleware } from "@opencode-ai/server/middleware/session-location"
+import { makeApi } from "@reimagined-ai/protocol/api"
+import { LocationMiddleware } from "@reimagined-ai/server/location"
+import { SessionLocationMiddleware } from "@reimagined-ai/server/middleware/session-location"
 import { GlobalApi } from "./groups/global"
 import { Authorization } from "./middleware/authorization"
 import { SchemaErrorMiddleware } from "./middleware/schema-error"
@@ -51,14 +51,14 @@ export const ServerApi = makeApi({
   sessionLocationMiddleware: SessionLocationMiddleware,
 })
 
-export const RootHttpApi = HttpApi.make("opencode-root")
+export const RootHttpApi = HttpApi.make("reimagined-root")
   .addHttpApi(ControlApi)
   .addHttpApi(ControlPlaneApi)
   .addHttpApi(GlobalApi)
   .middleware(SchemaErrorMiddleware)
   .middleware(Authorization)
 
-export const InstanceHttpApi = HttpApi.make("opencode-instance")
+export const InstanceHttpApi = HttpApi.make("reimagined-instance")
   .addHttpApi(ConfigApi)
   .addHttpApi(ExperimentalApi)
   .addHttpApi(FileApi)
@@ -76,7 +76,7 @@ export const InstanceHttpApi = HttpApi.make("opencode-instance")
   .addHttpApi(WorkspaceApi)
   .middleware(SchemaErrorMiddleware)
 
-export const OpenCodeHttpApi = HttpApi.make("opencode")
+export const ReimaginedHttpApi = HttpApi.make("reimagined")
   .addHttpApi(RootHttpApi)
   .addHttpApi(EventApi)
   .addHttpApi(InstanceHttpApi)

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { CODE_MODE_TOOL, CodeModeTool, Parameters, describeCatalog } from "@/tool/code-mode"
 import type { Tool as MCPToolDef } from "@modelcontextprotocol/sdk/types.js"
-import type { PermissionV1 } from "@opencode-ai/core/v1/permission"
+import type { PermissionV1 } from "@reimagined-ai/core/v1/permission"
 import { Agent } from "@/agent/agent"
 import { MCP } from "@/mcp"
 import { Permission } from "@/permission"
@@ -632,7 +632,7 @@ describe("code mode execute", () => {
     expect(ran).toEqual([])
   })
 
-  test("leaves oversized results to OpenCode's native tool-output truncation", async () => {
+  test("leaves oversized results to Reimagined's native tool-output truncation", async () => {
     const tool = await build({})
     const output = await Effect.runPromise(tool.execute({ code: "return 'x'.repeat(40000)" }, ctx))
     expect(output.metadata.error).toBeUndefined()

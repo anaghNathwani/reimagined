@@ -1,35 +1,35 @@
 import { expect, test } from "bun:test"
 import { Schema } from "effect"
-import { AgentV2 } from "@opencode-ai/core/agent"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { SessionV2 } from "@opencode-ai/core/session"
-import { Agent } from "@opencode-ai/schema/agent"
-import { Location } from "@opencode-ai/schema/location"
-import { Model } from "@opencode-ai/schema/model"
-import { AgentAttachment, FileAttachment, Prompt, Source } from "@opencode-ai/schema/prompt"
-import { Provider } from "@opencode-ai/schema/provider"
-import { Project } from "@opencode-ai/schema/project"
-import { ProjectDirectories } from "@opencode-ai/schema/project-directories"
-import { PermissionV1 } from "@opencode-ai/schema/permission-v1"
-import { Session } from "@opencode-ai/schema/session"
-import { SessionInput } from "@opencode-ai/schema/session-input"
-import { SessionMessage } from "@opencode-ai/schema/session-message"
-import { Workspace } from "@opencode-ai/schema/workspace"
-import { Command } from "@opencode-ai/schema/command"
-import { Connection } from "@opencode-ai/schema/connection"
-import { Credential } from "@opencode-ai/schema/credential"
-import { FileSystem } from "@opencode-ai/schema/filesystem"
-import { Integration } from "@opencode-ai/schema/integration"
-import { LLM } from "@opencode-ai/schema/llm"
-import { Permission } from "@opencode-ai/schema/permission"
-import { Plugin } from "@opencode-ai/schema/plugin"
-import { Pty } from "@opencode-ai/schema/pty"
-import { Reference } from "@opencode-ai/schema/reference"
-import { SessionTodo } from "@opencode-ai/schema/session-todo"
-import { Skill } from "@opencode-ai/schema/skill"
-import { AbsolutePath, DateTimeUtcFromMillis, optional, statics } from "@opencode-ai/schema/schema"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { PluginV2 } from "@opencode-ai/core/plugin"
+import { AgentV2 } from "@reimagined-ai/core/agent"
+import { ModelV2 } from "@reimagined-ai/core/model"
+import { SessionV2 } from "@reimagined-ai/core/session"
+import { Agent } from "@reimagined-ai/schema/agent"
+import { Location } from "@reimagined-ai/schema/location"
+import { Model } from "@reimagined-ai/schema/model"
+import { AgentAttachment, FileAttachment, Prompt, Source } from "@reimagined-ai/schema/prompt"
+import { Provider } from "@reimagined-ai/schema/provider"
+import { Project } from "@reimagined-ai/schema/project"
+import { ProjectDirectories } from "@reimagined-ai/schema/project-directories"
+import { PermissionV1 } from "@reimagined-ai/schema/permission-v1"
+import { Session } from "@reimagined-ai/schema/session"
+import { SessionInput } from "@reimagined-ai/schema/session-input"
+import { SessionMessage } from "@reimagined-ai/schema/session-message"
+import { Workspace } from "@reimagined-ai/schema/workspace"
+import { Command } from "@reimagined-ai/schema/command"
+import { Connection } from "@reimagined-ai/schema/connection"
+import { Credential } from "@reimagined-ai/schema/credential"
+import { FileSystem } from "@reimagined-ai/schema/filesystem"
+import { Integration } from "@reimagined-ai/schema/integration"
+import { LLM } from "@reimagined-ai/schema/llm"
+import { Permission } from "@reimagined-ai/schema/permission"
+import { Plugin } from "@reimagined-ai/schema/plugin"
+import { Pty } from "@reimagined-ai/schema/pty"
+import { Reference } from "@reimagined-ai/schema/reference"
+import { SessionTodo } from "@reimagined-ai/schema/session-todo"
+import { Skill } from "@reimagined-ai/schema/skill"
+import { AbsolutePath, DateTimeUtcFromMillis, optional, statics } from "@reimagined-ai/schema/schema"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { PluginV2 } from "@reimagined-ai/core/plugin"
 
 test("Core reuses the canonical shared schemas", async () => {
   const [
@@ -55,27 +55,27 @@ test("Core reuses the canonical shared schemas", async () => {
     coreSchema,
     coreWorkspace,
   ] = await Promise.all([
-    import("@opencode-ai/core/command"),
-    import("@opencode-ai/core/integration/connection"),
-    import("@opencode-ai/core/credential"),
-    import("@opencode-ai/core/filesystem"),
-    import("@opencode-ai/core/integration"),
-    import("@opencode-ai/core/location"),
-    import("@opencode-ai/llm"),
-    import("@opencode-ai/core/permission"),
-    import("@opencode-ai/core/v1/permission"),
-    import("@opencode-ai/core/project/copy"),
-    import("@opencode-ai/core/pty"),
-    import("@opencode-ai/core/project/schema"),
-    import("@opencode-ai/core/reference"),
-    import("@opencode-ai/core/session/input"),
-    import("@opencode-ai/core/session/message"),
-    import("@opencode-ai/core/session/todo"),
-    import("@opencode-ai/core/session/prompt"),
-    import("@opencode-ai/core/skill"),
-    import("@opencode-ai/core/v2-schema"),
-    import("@opencode-ai/core/schema"),
-    import("@opencode-ai/core/workspace"),
+    import("@reimagined-ai/core/command"),
+    import("@reimagined-ai/core/integration/connection"),
+    import("@reimagined-ai/core/credential"),
+    import("@reimagined-ai/core/filesystem"),
+    import("@reimagined-ai/core/integration"),
+    import("@reimagined-ai/core/location"),
+    import("@reimagined-ai/llm"),
+    import("@reimagined-ai/core/permission"),
+    import("@reimagined-ai/core/v1/permission"),
+    import("@reimagined-ai/core/project/copy"),
+    import("@reimagined-ai/core/pty"),
+    import("@reimagined-ai/core/project/schema"),
+    import("@reimagined-ai/core/reference"),
+    import("@reimagined-ai/core/session/input"),
+    import("@reimagined-ai/core/session/message"),
+    import("@reimagined-ai/core/session/todo"),
+    import("@reimagined-ai/core/session/prompt"),
+    import("@reimagined-ai/core/skill"),
+    import("@reimagined-ai/core/v2-schema"),
+    import("@reimagined-ai/core/schema"),
+    import("@reimagined-ai/core/workspace"),
   ])
 
   const schemas = [

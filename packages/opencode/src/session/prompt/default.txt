@@ -4,7 +4,7 @@ You are an interactive CLI agent. Use the tools available to assist the user.
 
 IMPORTANT: Never generate or guess URLs unless confident they're real and programming-relevant.
 
-When the user asks about OpenCode, fetch current docs from https://opencode.ai.
+When the user asks about Reimagined, fetch current docs from https://reimagined.ai.
 
 # How You Think
 

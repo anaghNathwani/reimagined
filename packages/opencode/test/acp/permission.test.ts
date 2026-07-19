@@ -5,8 +5,8 @@ import type {
   RequestPermissionResponse,
   SessionUpdate,
 } from "@agentclientprotocol/sdk"
-import type { Event, OpencodeClient } from "@opencode-ai/sdk/v2"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import type { Event, OpencodeClient } from "@reimagined-ai/sdk/v2"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { createTwoFilesPatch } from "diff"
 import { Effect, ManagedRuntime } from "effect"
 import { mkdtemp, rm } from "node:fs/promises"
@@ -148,7 +148,7 @@ function textFromUpdates(updates: SessionUpdateParams[], sessionId: string) {
 }
 
 async function tempFile(name: string, content: string) {
-  const dir = await mkdtemp(path.join(tmpdir(), "opencode-acp-permission-"))
+  const dir = await mkdtemp(path.join(tmpdir(), "reimagined-acp-permission-"))
   cleanupDirs.push(dir)
   const file = path.join(dir, name)
   await Bun.write(file, content)

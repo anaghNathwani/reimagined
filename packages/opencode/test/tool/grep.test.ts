@@ -1,19 +1,19 @@
-import { PermissionV1 } from "@opencode-ai/core/v1/permission"
+import { PermissionV1 } from "@reimagined-ai/core/v1/permission"
 import { describe, expect } from "bun:test"
 import fs from "fs/promises"
 import os from "os"
 import path from "path"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
 import { GrepTool } from "../../src/tool/grep"
 import { provideInstance, testInstanceStoreLayer, TestInstance, tmpdirScoped } from "../fixture/fixture"
 import { SessionID, MessageID } from "../../src/session/schema"
-import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Global } from "@opencode-ai/core/global"
+import { CrossSpawnSpawner } from "@reimagined-ai/core/cross-spawn-spawner"
+import { Global } from "@reimagined-ai/core/global"
 import { Truncate } from "@/tool/truncate"
 import { Agent } from "../../src/agent/agent"
-import { Ripgrep } from "@opencode-ai/core/ripgrep"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { Ripgrep } from "@reimagined-ai/core/ripgrep"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { testEffect } from "../lib/effect"
 import { Permission } from "../../src/permission"
 import type * as Tool from "../../src/tool/tool"
@@ -176,7 +176,7 @@ describe("tool.grep", () => {
 
       yield* TestInstance
       const tmp = yield* Effect.acquireRelease(
-        Effect.promise(() => fs.mkdtemp(path.join(os.tmpdir(), "opencode-grep-alias-"))),
+        Effect.promise(() => fs.mkdtemp(path.join(os.tmpdir(), "reimagined-grep-alias-"))),
         (dir) => Effect.promise(() => fs.rm(dir, { recursive: true, force: true })),
       )
       const real = path.join(tmp, "real")

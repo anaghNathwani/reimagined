@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import path from "path"
 import { Server } from "../../src/server/server"
-import { Global } from "@opencode-ai/core/global"
+import { Global } from "@reimagined-ai/core/global"
 import { resetDatabase } from "../fixture/db"
 import { disposeAllInstances, tmpdir } from "../fixture/fixture"
 import { Effect } from "effect"
@@ -30,7 +30,7 @@ describe("reference HttpApi", () => {
       pollWithTimeout(
         Effect.promise(async () => {
           const response = await Server.Default().app.request("/api/reference", {
-            headers: { "x-opencode-directory": tmp.path },
+            headers: { "x-reimagined-directory": tmp.path },
           })
           expect(response.status).toBe(200)
           const body = await response.json()

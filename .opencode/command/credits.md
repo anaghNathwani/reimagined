@@ -12,7 +12,7 @@ Print the following credits exactly, with no extra commentary:
 ║                                                  ║
 ║  Originally designed by                          ║
 ║    Anomaly Co.  (https://github.com/anomalyco)   ║
-║    as "opencode"                                 ║
+║    as "reimagined"                                 ║
 ║                                                  ║
 ║  Modified & extended by                          ║
 ║    Anagh Nathwani                                ║

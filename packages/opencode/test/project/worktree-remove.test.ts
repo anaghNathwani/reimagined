@@ -2,7 +2,7 @@ import { $ } from "bun"
 import { describe, expect } from "bun:test"
 import * as fs from "fs/promises"
 import path from "path"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { Effect } from "effect"
 import { InstanceBootstrap } from "../../src/project/bootstrap"
 import { InstanceStore } from "../../src/project/instance-store"
@@ -21,7 +21,7 @@ describe("Worktree.remove", () => {
         const root = (yield* TestInstance).directory
         const svc = yield* Worktree.Service
         const name = `remove-regression-${Date.now().toString(36)}`
-        const branch = `opencode/${name}`
+        const branch = `reimagined/${name}`
         const dir = path.join(root, "..", name)
 
         yield* Effect.promise(() => $`git worktree add --no-checkout -b ${branch} ${dir}`.cwd(root).quiet())
@@ -93,7 +93,7 @@ describe("Worktree.remove", () => {
         const root = (yield* TestInstance).directory
         const svc = yield* Worktree.Service
         const name = `remove-fsmonitor-${Date.now().toString(36)}`
-        const branch = `opencode/${name}`
+        const branch = `reimagined/${name}`
         const dir = path.join(root, "..", name)
 
         yield* Effect.promise(() => $`git worktree add --no-checkout -b ${branch} ${dir}`.cwd(root).quiet())

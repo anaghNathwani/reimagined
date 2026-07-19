@@ -1,7 +1,7 @@
-import { PermissionV1 } from "@opencode-ai/core/v1/permission"
-import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { Ripgrep } from "@opencode-ai/core/ripgrep"
+import { PermissionV1 } from "@reimagined-ai/core/v1/permission"
+import { CrossSpawnSpawner } from "@reimagined-ai/core/cross-spawn-spawner"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { Ripgrep } from "@reimagined-ai/core/ripgrep"
 import { Cause, Effect, Exit, Layer } from "effect"
 import { afterEach, describe, expect } from "bun:test"
 import path from "path"
@@ -33,7 +33,7 @@ describe("tool.skill", () => {
   it.instance("execute returns skill content block with files", () =>
     Effect.gen(function* () {
       const dir = (yield* TestInstance).directory
-      const skill = path.join(dir, ".opencode", "skill", "tool-skill")
+      const skill = path.join(dir, ".reimagined", "skill", "tool-skill")
       yield* Effect.promise(() =>
         Bun.write(
           path.join(skill, "SKILL.md"),
@@ -61,7 +61,7 @@ Use this skill.
       const registry = yield* ToolRegistry.Service
       const agent = { name: "build", mode: "primary" as const, permission: [], options: {} }
       const tool = (yield* registry.tools({
-        providerID: "opencode" as any,
+        providerID: "reimagined" as any,
         modelID: "gpt-5" as any,
         agent,
       })).find((tool) => tool.id === SkillTool.id)
@@ -107,7 +107,7 @@ Use this skill.
       const registry = yield* ToolRegistry.Service
       const agent = { name: "build", mode: "primary" as const, permission: [], options: {} }
       const tool = (yield* registry.tools({
-        providerID: "opencode" as any,
+        providerID: "reimagined" as any,
         modelID: "gpt-5" as any,
         agent,
       })).find((tool) => tool.id === SkillTool.id)

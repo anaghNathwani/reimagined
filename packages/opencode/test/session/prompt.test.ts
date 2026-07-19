@@ -1,15 +1,15 @@
-import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
-import { SessionV1 } from "@opencode-ai/core/v1/session"
-import { Database } from "@opencode-ai/core/database/database"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { SessionProjector } from "@opencode-ai/core/session/projector"
+import { ConfigV1 } from "@reimagined-ai/core/v1/config/config"
+import { SessionV1 } from "@reimagined-ai/core/v1/session"
+import { Database } from "@reimagined-ai/core/database/database"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { SessionProjector } from "@reimagined-ai/core/session/projector"
 import { eq } from "drizzle-orm"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { expect } from "bun:test"
 import { Cause, Deferred, Duration, Effect, Exit, Fiber, Layer } from "effect"
 import path from "path"
 import { fileURLToPath } from "url"
-import { NamedError } from "@opencode-ai/core/util/error"
+import { NamedError } from "@reimagined-ai/core/util/error"
 import { Agent as AgentSvc } from "../../src/agent/agent"
 import { BackgroundJob } from "@/background/job"
 import { Command } from "../../src/command"
@@ -26,10 +26,10 @@ import { Image } from "../../src/image/image"
 import { Question } from "../../src/question"
 import { Todo } from "../../src/session/todo"
 import { Session } from "@/session/session"
-import { SessionMessageTable } from "@opencode-ai/core/session/sql"
+import { SessionMessageTable } from "@reimagined-ai/core/session/sql"
 import { LLM } from "../../src/session/llm"
 import { MessageV2 } from "../../src/session/message-v2"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { SessionCompaction } from "../../src/session/compaction"
 import { SessionSummary } from "../../src/session/summary"
 import { Instruction } from "../../src/session/instruction"
@@ -39,24 +39,24 @@ import { SessionRevert } from "../../src/session/revert"
 import { SessionRunState } from "../../src/session/run-state"
 import { MessageID, PartID, SessionID } from "../../src/session/schema"
 import { SessionStatus } from "../../src/session/status"
-import { SessionV2 } from "@opencode-ai/core/session"
-import { SessionExecution } from "@opencode-ai/core/session/execution"
+import { SessionV2 } from "@reimagined-ai/core/session"
+import { SessionExecution } from "@reimagined-ai/core/session/execution"
 import { Skill } from "../../src/skill"
 import { SystemPrompt } from "../../src/session/system"
-import { Shell } from "@opencode-ai/core/shell"
+import { Shell } from "@reimagined-ai/core/shell"
 import { Snapshot } from "../../src/snapshot"
 import { ToolRegistry } from "@/tool/registry"
 import { Truncate } from "@/tool/truncate"
-import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Ripgrep } from "@opencode-ai/core/ripgrep"
+import { CrossSpawnSpawner } from "@reimagined-ai/core/cross-spawn-spawner"
+import { Ripgrep } from "@reimagined-ai/core/ripgrep"
 import { Format } from "../../src/format"
 import { TestInstance } from "../fixture/fixture"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
 import { reply, TestLLMServer } from "../lib/llm-server"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { LocationServiceMap, locationServiceMapLayer } from "@opencode-ai/core/location-services"
+import { ProviderV2 } from "@reimagined-ai/core/provider"
+import { ModelV2 } from "@reimagined-ai/core/model"
+import { LocationServiceMap, locationServiceMapLayer } from "@reimagined-ai/core/location-services"
 
 const summary = Layer.succeed(
   SessionSummary.Service,
@@ -310,8 +310,8 @@ const writeText = Effect.fn("test.writeText")(function* (file: string, text: str
 
 const writeConfig = Effect.fn("test.writeConfig")(function* (dir: string, config: Partial<ConfigV1.Info>) {
   yield* writeText(
-    path.join(dir, "opencode.json"),
-    JSON.stringify({ $schema: "https://opencode.ai/config.json", ...config }),
+    path.join(dir, "reimagined.json"),
+    JSON.stringify({ $schema: "https://reimagined.ai/config.json", ...config }),
   )
 })
 
@@ -2186,7 +2186,7 @@ it.instance("does not loop empty assistant turns for a simple reply", () =>
     const sessions = yield* Session.Service
     const session = yield* sessions.create({ title: "Prompt regression" })
 
-    yield* llm.text("packages/opencode/src/session/processor.ts")
+    yield* llm.text("packages/reimagined/src/session/processor.ts")
 
     const result = yield* prompt.prompt({
       sessionID: session.id,
@@ -2255,7 +2255,7 @@ noLLMServer.instance(
       const other = yield* prompt.prompt({
         sessionID: session.id,
         agent: "build",
-        model: { providerID: ProviderV2.ID.make("opencode"), modelID: ModelV2.ID.make("kimi-k2.5-free") },
+        model: { providerID: ProviderV2.ID.make("reimagined"), modelID: ModelV2.ID.make("kimi-k2.5-free") },
         noReply: true,
         parts: [{ type: "text", text: "hello" }],
       })

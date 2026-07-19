@@ -1,9 +1,9 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { InstanceState } from "@/effect/instance-state"
 import { SessionID } from "./schema"
 import { Effect, Layer, Context } from "effect"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import { SessionStatusEvent } from "@opencode-ai/schema/session-status-event"
+import { SessionStatusEvent } from "@reimagined-ai/schema/session-status-event"
 
 export const Info = SessionStatusEvent.Info
 export type Info = SessionStatusEvent.Info
@@ -16,7 +16,7 @@ export interface Interface {
   readonly set: (sessionID: SessionID, status: Info) => Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/SessionStatus") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/SessionStatus") {}
 
 const layer = Layer.effect(
   Service,

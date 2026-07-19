@@ -1,6 +1,6 @@
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
 import { InstanceState } from "@/effect/instance-state"
-import { SessionV1 } from "@opencode-ai/core/v1/session"
+import { SessionV1 } from "@reimagined-ai/core/v1/session"
 import { Runner } from "@/effect/runner"
 import { BackgroundJob } from "@/background/job"
 import { Effect, Latch, Layer, Scope, Context } from "effect"
@@ -24,7 +24,7 @@ export interface Interface {
   ) => Effect.Effect<SessionV1.WithParts, Session.BusyError>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/SessionRunState") {}
+export class Service extends Context.Service<Service, Interface>()("@reimagined/SessionRunState") {}
 
 const layer = Layer.effect(
   Service,

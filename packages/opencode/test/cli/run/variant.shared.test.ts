@@ -1,10 +1,10 @@
 import path from "path"
 import { NodeFileSystem } from "@effect/platform-node"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { describe, expect, test } from "bun:test"
 import { Effect, FileSystem, Layer } from "effect"
-import { Global } from "@opencode-ai/core/global"
+import { Global } from "@reimagined-ai/core/global"
 import {
   createVariantRuntime,
   cycleVariant,

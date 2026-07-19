@@ -7,12 +7,12 @@ ENV BUN_RUNTIME_TRANSPILER_CACHE_PATH=${BUN_RUNTIME_TRANSPILER_CACHE_PATH}
 RUN apk add libgcc libstdc++ ripgrep
 
 FROM base AS build-amd64
-COPY dist/opencode-linux-x64-baseline-musl/bin/opencode /usr/local/bin/opencode
+COPY dist/reimagined-linux-x64-baseline-musl/bin/reimagined /usr/local/bin/reimagined
 
 FROM base AS build-arm64
-COPY dist/opencode-linux-arm64-musl/bin/opencode /usr/local/bin/opencode
+COPY dist/reimagined-linux-arm64-musl/bin/reimagined /usr/local/bin/reimagined
 
 ARG TARGETARCH
 FROM build-${TARGETARCH}
-RUN opencode --version
-ENTRYPOINT ["opencode"]
+RUN reimagined --version
+ENTRYPOINT ["reimagined"]

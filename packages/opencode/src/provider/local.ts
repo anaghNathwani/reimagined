@@ -14,7 +14,7 @@ import fs from "fs/promises"
 import { execFile } from "child_process"
 import { promisify } from "util"
 import os from "os"
-import { Global } from "@opencode-ai/core/global"
+import { Global } from "@reimagined-ai/core/global"
 import type { LanguageModelV3, LanguageModelV3StreamPart, LanguageModelV3CallOptions } from "@ai-sdk/provider"
 import { ensureOcQuantBuilt, OC_QUANT_BIN } from "./native/build.js"
 

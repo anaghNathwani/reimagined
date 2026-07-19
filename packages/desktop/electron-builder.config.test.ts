@@ -1,12 +1,12 @@
 import { expect, test } from "bun:test"
 import type { Configuration } from "electron-builder"
 
-const legacyDesktopEntry = "resources/linux/opencode-desktop.desktop"
+const legacyDesktopEntry = "resources/linux/reimagined-desktop.desktop"
 
 const channels = [
-  { channel: "dev", appId: "ai.opencode.desktop.dev" },
-  { channel: "beta", appId: "ai.opencode.desktop.beta" },
-  { channel: "prod", appId: "ai.opencode.desktop" },
+  { channel: "dev", appId: "ai.reimagined.desktop.dev" },
+  { channel: "beta", appId: "ai.reimagined.desktop.beta" },
+  { channel: "prod", appId: "ai.reimagined.desktop" },
 ] as const
 
 for (const channel of channels) {
@@ -37,12 +37,12 @@ test("keeps a hidden prod launcher for old Linux pins", async () => {
   if (previous === undefined) delete process.env.OPENCODE_CHANNEL
   else process.env.OPENCODE_CHANNEL = previous
 
-  expect(config.deb?.fpm?.[0]).toEndWith(`${legacyDesktopEntry}=/usr/share/applications/opencode-desktop.desktop`)
-  expect(config.rpm?.fpm?.[0]).toEndWith(`${legacyDesktopEntry}=/usr/share/applications/opencode-desktop.desktop`)
+  expect(config.deb?.fpm?.[0]).toEndWith(`${legacyDesktopEntry}=/usr/share/applications/reimagined-desktop.desktop`)
+  expect(config.rpm?.fpm?.[0]).toEndWith(`${legacyDesktopEntry}=/usr/share/applications/reimagined-desktop.desktop`)
 
   const desktop = await Bun.file(legacyDesktopEntry).text()
-  expect(desktop).toContain("Exec=/opt/OpenCode/ai.opencode.desktop %U")
-  expect(desktop).toContain("Icon=ai.opencode.desktop")
-  expect(desktop).toContain("StartupWMClass=ai.opencode.desktop")
+  expect(desktop).toContain("Exec=/opt/Reimagined/ai.reimagined.desktop %U")
+  expect(desktop).toContain("Icon=ai.reimagined.desktop")
+  expect(desktop).toContain("StartupWMClass=ai.reimagined.desktop")
   expect(desktop).toContain("NoDisplay=true")
 })

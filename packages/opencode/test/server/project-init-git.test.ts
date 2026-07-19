@@ -1,7 +1,7 @@
 import { afterEach, describe, expect } from "bun:test"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { FSUtil } from "@opencode-ai/core/fs-util"
+import { AppNodeBuilder } from "@reimagined-ai/core/effect/app-node-builder"
+import { LayerNode } from "@reimagined-ai/core/effect/layer-node"
+import { FSUtil } from "@reimagined-ai/core/fs-util"
 import { Effect, Layer } from "effect"
 import { HttpClientResponse } from "effect/unstable/http"
 import path from "path"
@@ -71,7 +71,7 @@ describe("project.initGit endpoint", () => {
       })
       // Reload behavior: bus emits exactly one server.instance.disposed for the directory.
       expect(disposedEvents(events.seen, tmp.directory)).toBe(1)
-      expect(yield* fs.exists(path.join(tmp.directory, ".git", "opencode"))).toBe(false)
+      expect(yield* fs.exists(path.join(tmp.directory, ".git", "reimagined"))).toBe(false)
 
       const current = yield* request(tmp.directory, "/project/current")
       expect(current.status).toBe(200)
