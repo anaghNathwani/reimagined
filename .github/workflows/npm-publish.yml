@@ -2,14 +2,9 @@ name: npm publish
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - dev
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "npm dist-tag (e.g. latest, beta)"
-        required: false
-        default: "latest"
 
 permissions:
   contents: read
@@ -37,9 +32,8 @@ jobs:
         run: bun run build
         continue-on-error: true
 
-      - name: Publish to npm
+      - name: Bump patch version and publish
         run: |
-          TAG=${{ github.event.inputs.tag || 'latest' }}
           for pkg in packages/*/package.json; do
             dir=$(dirname "$pkg")
             name=$(node -p "require('./$pkg').name || ''")
@@ -49,7 +43,8 @@ jobs:
             fi
             echo "Publishing $name from $dir..."
             cd "$dir"
-            npm publish --access public --tag "$TAG" || echo "Skipped $name"
+            npm version patch --no-git-tag-version || true
+            npm publish --access public --tag latest || echo "Skipped $name"
             cd "$GITHUB_WORKSPACE"
           done
         env:
