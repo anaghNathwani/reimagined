@@ -6,15 +6,20 @@ import type { Accessor } from "solid-js"
 import { selectProviderCatalog } from "./provider-catalog"
 
 export const popularProviders = [
+  "local-openweight",
+  "ollama",
   "opencode",
   "opencode-go",
   "anthropic",
   "github-copilot",
   "openai",
   "google",
-  "openrouter",
   "vercel",
 ]
+
+// Providers hidden from the model list unless the user has explicitly configured credentials.
+// opencode/opencode-go route through Anomaly Co. cloud servers — excluded by default.
+export const paidOnlyProviders = new Set(["anthropic", "openai", "google", "vercel", "opencode", "opencode-go"])
 const popularProviderSet = new Set(popularProviders)
 
 export function useProviders(directory?: Accessor<string | undefined>) {

@@ -70,10 +70,14 @@ const decodeCursor = Schema.decodeUnknownSync(Cursor)
 
 export const cursor = {
   encode(input: Cursor) {
-    return Buffer.from(JSON.stringify(input)).toString("base64url")
+    // btoa is faster than Buffer.from().toString() for small payloads.
+    const json = JSON.stringify(input)
+    return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
   },
   decode(input: string) {
-    return decodeCursor(JSON.parse(Buffer.from(input, "base64url").toString("utf8")))
+    const padded = input.replace(/-/g, "+").replace(/_/g, "/")
+    const json = atob(padded.length % 4 === 0 ? padded : padded + "=".repeat(4 - (padded.length % 4)))
+    return decodeCursor(JSON.parse(json))
   },
 }
 
@@ -489,16 +493,16 @@ export function stream(sessionID: SessionID) {
   })
 }
 
-export function parts(messageID: MessageID) {
+export function parts(messageID: MessageID, limit?: number) {
   return Effect.gen(function* () {
     const { db } = yield* Database.Service
-    const rows = yield* db
-      .select()
-      .from(PartTable)
-      .where(eq(PartTable.message_id, messageID))
-      .orderBy(PartTable.id)
-      .all()
-      .pipe(Effect.orDie)
+    const base = db.select().from(PartTable).where(eq(PartTable.message_id, messageID))
+    if (limit !== undefined) {
+      // Fetch last `limit` rows: sort DESC, limit, then reverse to restore order
+      const rows = yield* base.orderBy(desc(PartTable.id)).limit(limit).all().pipe(Effect.orDie)
+      return rows.reverse().map(part)
+    }
+    const rows = yield* base.orderBy(PartTable.id).all().pipe(Effect.orDie)
     return rows.map(part)
   })
 }

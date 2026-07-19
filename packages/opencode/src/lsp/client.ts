@@ -91,13 +91,8 @@ function endPosition(text: string) {
 function dedupeDiagnostics(items: Diagnostic[]) {
   const seen = new Set<string>()
   return items.filter((item) => {
-    const key = JSON.stringify({
-      code: item.code,
-      severity: item.severity,
-      message: item.message,
-      source: item.source,
-      range: item.range,
-    })
+    const r = item.range
+    const key = `${item.code}\0${item.severity}\0${item.source}\0${r.start.line}:${r.start.character}-${r.end.line}:${r.end.character}\0${item.message}`
     if (seen.has(key)) return false
     seen.add(key)
     return true
@@ -622,9 +617,8 @@ export async function create(input: {
     },
     get diagnostics() {
       const result = new Map<string, Diagnostic[]>()
-      for (const key of new Set([...pushDiagnostics.keys(), ...pullDiagnostics.keys()])) {
-        result.set(key, mergedDiagnostics(key))
-      }
+      for (const key of pushDiagnostics.keys()) result.set(key, mergedDiagnostics(key))
+      for (const key of pullDiagnostics.keys()) if (!result.has(key)) result.set(key, mergedDiagnostics(key))
       return result
     },
     async waitForDiagnostics(request: { path: string; version: number; mode?: "document" | "full"; after?: number }) {

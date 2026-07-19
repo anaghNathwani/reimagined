@@ -1,0 +1,43 @@
+{
+  "productName": "OC Editor",
+  "version": "0.1.0",
+  "identifier": "ai.opencode.editor",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "bun run --cwd .. vite",
+    "beforeBuildCommand": "bun run --cwd .. vite build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "OC Editor",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 900,
+        "minHeight": 600,
+        "decorations": false,
+        "transparent": true,
+        "hiddenTitle": true,
+        "windowEffects": {
+          "effects": ["hudWindow"],
+          "state": "active"
+        }
+      }
+    ],
+    "macOSPrivateApi": true,
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": []
+  },
+  "plugins": {
+    "shell": {
+      "open": false
+    }
+  }
+}

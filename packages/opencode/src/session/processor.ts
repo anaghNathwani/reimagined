@@ -350,23 +350,26 @@ const layer = Layer.effect(
                 : value.providerMetadata,
             }))
 
-            const parts = yield* MessageV2.parts(ctx.assistantMessage.id).pipe(
+            const recentParts = yield* MessageV2.parts(ctx.assistantMessage.id, DOOM_LOOP_THRESHOLD).pipe(
               Effect.provideService(Database.Service, database),
             )
-            const recentParts = parts.slice(-DOOM_LOOP_THRESHOLD)
 
-            if (
-              recentParts.length !== DOOM_LOOP_THRESHOLD ||
-              !recentParts.every(
-                (part) =>
-                  part.type === "tool" &&
-                  part.tool === value.name &&
-                  part.state.status !== "pending" &&
-                  JSON.stringify(part.state.input) === JSON.stringify(input),
-              )
-            ) {
-              return
+            // Serialize once; reuse for all comparisons in the loop below.
+            const inputStr = JSON.stringify(input)
+            if (recentParts.length !== DOOM_LOOP_THRESHOLD) return
+            let allMatch = true
+            for (const part of recentParts) {
+              if (
+                part.type !== "tool" ||
+                part.tool !== value.name ||
+                part.state.status === "pending" ||
+                JSON.stringify(part.state.input) !== inputStr
+              ) {
+                allMatch = false
+                break
+              }
             }
+            if (!allMatch) return
 
             const agent = yield* agents.get(ctx.assistantMessage.agent)
             yield* permission.ask({

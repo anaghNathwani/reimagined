@@ -67,17 +67,19 @@ export const build = (input: {
   readonly commands: readonly Command.Info[]
   readonly defaultModel?: DefaultModel
 }): Snapshot => {
-  const modelOptions = Provider.sort(
-    Object.values(input.providers).flatMap((provider) =>
-      Object.values(provider.models).map((model) => ({
-        id: model.id,
-        providerID: provider.id,
-        providerName: provider.name,
-        modelID: model.id,
-        modelName: model.name,
-      })),
-    ),
-  ).map((model) => ({
+  const localProviders = new Set(["local-openweight", "ollama"])
+  const allModels = Object.values(input.providers).flatMap((provider) =>
+    Object.values(provider.models).map((model) => ({
+      id: model.id,
+      providerID: provider.id,
+      providerName: provider.name,
+      modelID: model.id,
+      modelName: model.name,
+    })),
+  )
+  const localModels = allModels.filter((m) => localProviders.has(m.providerID))
+  const cloudModels = Provider.sort(allModels.filter((m) => !localProviders.has(m.providerID)))
+  const modelOptions = [...localModels, ...cloudModels].map((model) => ({
     providerID: model.providerID,
     providerName: model.providerName,
     modelID: model.modelID,

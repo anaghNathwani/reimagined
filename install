@@ -358,6 +358,22 @@ else
     download_and_install
 fi
 
+# Create `code` as an alias for `opencode` in the same bin directory.
+# Skipped if something else already owns that name outside our install dir.
+create_code_alias() {
+    local code_bin="${INSTALL_DIR}/code"
+    # Remove a stale symlink we previously created; leave real files alone.
+    if [ -L "$code_bin" ]; then
+        rm -f "$code_bin"
+    fi
+    if [ ! -e "$code_bin" ]; then
+        ln -s "${INSTALL_DIR}/opencode" "$code_bin"
+        print_message info "${MUTED}Created ${NC}code ${MUTED}→ ${NC}opencode ${MUTED}alias in ${NC}$INSTALL_DIR"
+    fi
+}
+
+create_code_alias
+
 
 add_to_path() {
     local config_file=$1
@@ -452,8 +468,9 @@ echo -e ""
 echo -e ""
 echo -e "${MUTED}OpenCode includes free models, to start:${NC}"
 echo -e ""
-echo -e "cd <project>  ${MUTED}# Open directory${NC}"
-echo -e "opencode      ${MUTED}# Run command${NC}"
+echo -e "cd <project>  ${MUTED}# Open your project directory${NC}"
+echo -e "code          ${MUTED}# Run opencode (short alias)${NC}"
+echo -e "opencode      ${MUTED}# Or use the full command${NC}"
 echo -e ""
 echo -e "${MUTED}For more information visit ${NC}https://opencode.ai/docs"
 echo -e ""

@@ -13,7 +13,7 @@ import {
 import { createStore } from "solid-js/store"
 import { useLocal } from "@/context/local"
 import { useDialog } from "@opencode-ai/ui/context/dialog"
-import { popularProviders } from "@/hooks/use-providers"
+import { popularProviders, paidOnlyProviders, useProviders } from "@/hooks/use-providers"
 import { Button } from "@opencode-ai/ui/button"
 import { IconButton } from "@opencode-ai/ui/icon-button"
 import { ScrollView } from "@opencode-ai/ui/scroll-view"
@@ -61,13 +61,19 @@ const ModelList: Component<{
   model?: ModelState
 }> = (props) => {
   const model = props.model ?? useLocal().model
+  const providers = useProviders()
   const language = useLanguage()
+
+  // IDs of providers the user has credentials for
+  const connectedProviderIds = createMemo(() => new Set(providers.connected().map((p) => p.id)))
 
   const models = createMemo(() =>
     model
       .list()
       .filter((m) => model.visible({ modelID: m.id, providerID: m.provider.id }))
-      .filter((m) => (props.provider ? m.provider.id === props.provider : true)),
+      .filter((m) => (props.provider ? m.provider.id === props.provider : true))
+      // Hide paid-only providers unless the user has explicitly connected them
+      .filter((m) => !paidOnlyProviders.has(m.provider.id) || connectedProviderIds().has(m.provider.id)),
   )
 
   return (
@@ -114,6 +120,12 @@ const ModelList: Component<{
           </Show>
           <Show when={i.latest}>
             <Tag>{language.t("model.tag.latest")}</Tag>
+          </Show>
+          <Show when={i.provider.id === "local-openweight"}>
+            <Tag>local</Tag>
+          </Show>
+          <Show when={i.provider.id === "ollama"}>
+            <Tag>ollama</Tag>
           </Show>
         </div>
       )}

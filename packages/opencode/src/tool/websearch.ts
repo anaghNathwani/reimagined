@@ -30,10 +30,8 @@ export type WebSearchProvider = Schema.Schema.Type<typeof WebSearchProviderSchem
 export function selectWebSearchProvider(sessionID: string, flags = { exa: false, parallel: false }): WebSearchProvider {
   const override = process.env.OPENCODE_WEBSEARCH_PROVIDER
   if (override === "exa" || override === "parallel") return override
-  if (flags.parallel) return "parallel"
-  if (flags.exa) return "exa"
-
-  return Number.parseInt(checksum(sessionID) ?? "0", 36) % 2 === 0 ? "exa" : "parallel"
+  // Always use Parallel — it's free with no API key required.
+  return "parallel"
 }
 
 export function webSearchProviderLabel(provider: unknown) {

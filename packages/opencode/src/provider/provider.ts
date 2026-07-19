@@ -31,6 +31,14 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { ModelStatus } from "./model-status"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { ProviderError } from "./error"
+import {
+  LOCAL_MODELS,
+  type LocalModelDef,
+  createLocalLanguageModel,
+  findModelDef,
+  isModelDownloaded,
+  modelPath,
+} from "./local"
 
 const OPENAI_HEADER_TIMEOUT_DEFAULT = 300_000
 
@@ -464,16 +472,25 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           },
         },
       }),
-    openrouter: () =>
+    ollama: () =>
       Effect.succeed({
-        autoload: false,
+        autoload: true,
         options: {
-          headers: {
-            "HTTP-Referer": "https://opencode.ai/",
-            "X-Title": "opencode",
-          },
+          baseURL: "http://localhost:11434/v1",
+          apiKey: "ollama",
         },
       }),
+    "local-openweight": Effect.fnUntraced(function* (_input: Info) {
+      return {
+        autoload: true,
+        options: {},
+        async getModel(_sdk: any, modelID: string): Promise<LanguageModelV3> {
+          const def = findModelDef(modelID)
+          if (!def) throw new Error(`Unknown local model: ${modelID}`)
+          return createLocalLanguageModel(def)
+        },
+      }
+    }),
     nvidia: (provider) =>
       Effect.succeed({
         autoload: provider.source === "config",
@@ -1343,6 +1360,86 @@ const layer = Layer.effect(
         const catalog = mapValues(modelsDev, fromModelsDevProvider)
         const database = mapValues(catalog, toPublicInfo)
 
+        // Seed Ollama as a built-in local provider with fast <5GB open-weight models
+        if (!database["ollama"]) {
+          const ollamaProviderID = ProviderV2.ID.make("ollama")
+          const makeOllamaModel = (id: string, name: string, contextK: number): Model => ({
+            id: ModelV2.ID.make(id),
+            providerID: ollamaProviderID,
+            name,
+            family: "ollama",
+            api: { id, npm: "@ai-sdk/openai-compatible", url: "http://localhost:11434/v1" },
+            status: "active",
+            headers: {},
+            options: {},
+            cost: { input: 0, output: 0, cache: { read: 0, write: 0 } },
+            limit: { context: contextK * 1000, input: contextK * 1000, output: 4096 },
+            capabilities: {
+              temperature: true,
+              reasoning: false,
+              attachment: false,
+              toolcall: true,
+              input: { text: true, audio: false, image: false, video: false, pdf: false },
+              output: { text: true, audio: false, image: false, video: false, pdf: false },
+              interleaved: false,
+            },
+            release_date: "",
+            variants: {},
+          })
+          database["ollama"] = {
+            id: ollamaProviderID,
+            name: "Ollama (Local)",
+            env: [],
+            source: "custom",
+            options: { baseURL: "http://localhost:11434/v1", apiKey: "ollama" },
+            models: {
+              "qwen2.5-coder:7b": makeOllamaModel("qwen2.5-coder:7b", "Qwen 2.5 Coder 7B", 32),
+              "qwen2.5:7b": makeOllamaModel("qwen2.5:7b", "Qwen 2.5 7B", 32),
+              "llama3.2:3b": makeOllamaModel("llama3.2:3b", "Llama 3.2 3B", 128),
+              "phi4-mini:3.8b": makeOllamaModel("phi4-mini:3.8b", "Phi-4 Mini 3.8B", 16),
+              "gemma3:4b": makeOllamaModel("gemma3:4b", "Gemma 3 4B", 128),
+              "mistral:7b": makeOllamaModel("mistral:7b", "Mistral 7B", 32),
+              "deepseek-r1:7b": makeOllamaModel("deepseek-r1:7b", "DeepSeek R1 7B", 128),
+            },
+          }
+        }
+
+        // Seed local open-weight provider (node-llama-cpp, no Ollama required)
+        if (!database["local-openweight"]) {
+          const localProviderID = ProviderV2.ID.make("local-openweight")
+          const makeLocalModel = (def: LocalModelDef): Model => ({
+            id: ModelV2.ID.make(def.id),
+            providerID: localProviderID,
+            name: def.name,
+            family: "local-openweight",
+            api: { id: def.id, npm: "", url: "" },
+            status: "active",
+            headers: {},
+            options: {},
+            cost: { input: 0, output: 0, cache: { read: 0, write: 0 } },
+            limit: { context: def.contextK * 1000, input: def.contextK * 1000, output: 4096 },
+            capabilities: {
+              temperature: true,
+              reasoning: def.id.includes("r1") || def.id.includes("deepseek"),
+              attachment: false,
+              toolcall: true,
+              input: { text: true, audio: false, image: false, video: false, pdf: false },
+              output: { text: true, audio: false, image: false, video: false, pdf: false },
+              interleaved: false,
+            },
+            release_date: "",
+            variants: {},
+          })
+          database["local-openweight"] = {
+            id: localProviderID,
+            name: "Local (Open Weight)",
+            env: [],
+            source: "custom",
+            options: {},
+            models: Object.fromEntries(LOCAL_MODELS.map((def) => [def.id, makeLocalModel(def)])),
+          }
+        }
+
         const providers: Record<ProviderV2.ID, Info> = {} as Record<ProviderV2.ID, Info>
         const languages = new Map<string, LanguageModelV3>()
         const modelLoaders: {
@@ -1619,9 +1716,7 @@ const layer = Layer.effect(
               // built-in providers below, but custom providers may support them.
               (modelID === "gpt-5-chat-latest" &&
                 (providerID === ProviderV2.ID.openai ||
-                  providerID === ProviderV2.ID.githubCopilot ||
-                  providerID === ProviderV2.ID.openrouter)) ||
-              (providerID === ProviderV2.ID.openrouter && modelID === "openai/gpt-5-chat")
+                  providerID === ProviderV2.ID.githubCopilot))
             )
               delete provider.models[modelID]
             if (model.status === "alpha" && !runtimeFlags.enableExperimentalModels) delete provider.models[modelID]
@@ -1836,18 +1931,19 @@ const layer = Layer.effect(
       const provider = s.providers[model.providerID]
       return yield* EffectPromise.refineRejection(
         async () => {
-          const sdk = await resolveSDK(model, s, envs)
-          const language = s.modelLoaders[model.providerID]
-            ? await s.modelLoaders[model.providerID](
-                sdk,
-                model.api.id,
-                {
-                  ...provider.options,
-                  ...model.options,
-                },
-                model,
-              )
-            : sdk.languageModel(model.api.id)
+          let language: LanguageModelV3
+          if (s.modelLoaders[model.providerID]) {
+            // Custom loader handles its own SDK — skip resolveSDK entirely
+            language = await s.modelLoaders[model.providerID](
+              null,
+              model.api.id,
+              { ...provider.options, ...model.options },
+              model,
+            )
+          } else {
+            const sdk = await resolveSDK(model, s, envs)
+            language = sdk.languageModel(model.api.id)
+          }
           s.models.set(key, language)
           return language
         },
