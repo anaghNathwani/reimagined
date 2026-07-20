@@ -3,28 +3,23 @@ import { invoke } from "@tauri-apps/api/core"
 
 interface AgentTask {
   id: string
+  name: string
   prompt: string
   status: "pending" | "running" | "done" | "failed"
   output: string
-  agentType: string
 }
 
-const AGENTS = [
-  { id: "shell",  name: "Shell",     desc: "Run shell commands" },
-  { id: "search", name: "Search",    desc: "Search files for patterns" },
-  { id: "git",    name: "Git",       desc: "Git status / diff / log" },
-  { id: "format", name: "Formatter", desc: "Auto-format code" },
-  { id: "lint",   name: "Linter",    desc: "Run linters" },
-]
-
-const AGENT_COLORS: Record<string, string> = {
-  shell: "#6a9153", search: "#569cd6", git: "#f44747", format: "#c586c0", lint: "#d7ba7d",
+function agentColor(name: string): string {
+  const colors = ["#569cd6", "#6a9153", "#c586c0", "#d7ba7d", "#f44747", "#4ec9b0", "#ce9178"]
+  let hash = 0
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) & 0xffffff
+  return colors[Math.abs(hash) % colors.length]
 }
 
 export default function AgentPanel(props: { projectPath: string }) {
   const [tasks, setTasks] = createSignal<AgentTask[]>([])
   const [prompt, setPrompt] = createSignal("")
-  const [selectedAgent, setSelectedAgent] = createSignal("shell")
+  const [agentName, setAgentName] = createSignal("")
   const [expanded, setExpanded] = createSignal<Set<string>>(new Set())
 
   const running = () => tasks().filter(t => t.status === "running").length
@@ -33,14 +28,16 @@ export default function AgentPanel(props: { projectPath: string }) {
     const p = prompt().trim()
     if (!p) return
     const id = crypto.randomUUID()
-    const agentType = selectedAgent()
-    setTasks(t => [...t, { id, prompt: p, status: "running", output: "", agentType }])
+    const name = agentName().trim() || inferAgentName(p)
+    setTasks(t => [...t, { id, name, prompt: p, status: "running", output: "" }])
     setPrompt("")
 
-    const output = await runAgent(agentType, p, props.projectPath)
+    const cmd = buildCmd(p)
+    const output = await invoke<string>("shell_exec", { cmd, cwd: props.projectPath }).catch((e: unknown) => `Error: ${e}`)
     setTasks(t => t.map(task => task.id === id ? { ...task, status: "done", output } : task))
   }
 
+  const remove = (id: string) => setTasks(t => t.filter(x => x.id !== id))
   const toggle = (id: string) =>
     setExpanded(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
@@ -61,7 +58,7 @@ export default function AgentPanel(props: { projectPath: string }) {
         <Show when={tasks().length === 0}>
           <div style={{ padding: "32px 16px", "text-align": "center", color: "rgba(255,255,255,0.25)", "font-size": "12px" }}>
             <div style={{ "font-size": "28px", "margin-bottom": "8px", opacity: "0.3" }}>⚡</div>
-            No tasks yet
+            Describe a task — agents are created on demand
           </div>
         </Show>
         <For each={tasks()}>
@@ -77,13 +74,9 @@ export default function AgentPanel(props: { projectPath: string }) {
               <div style={{ display: "flex", "align-items": "center", gap: "8px" }}>
                 <Show
                   when={task.status === "running"}
-                  fallback={
-                    <div style={{ width: "7px", height: "7px", "border-radius": "50%", "flex-shrink": 0, background: statusColor(task.status) }} />
-                  }
+                  fallback={<div style={{ width: "7px", height: "7px", "border-radius": "50%", "flex-shrink": 0, background: statusColor(task.status) }} />}
                 >
-                  <div style={{ width: "14px", height: "14px", "flex-shrink": 0, display: "flex", "align-items": "center", "justify-content": "center" }}>
-                    <span style={{ "font-size": "10px", animation: "spin 1s linear infinite" }}>↻</span>
-                  </div>
+                  <span style={{ "font-size": "10px", animation: "spin 1s linear infinite", "flex-shrink": 0 }}>↻</span>
                 </Show>
                 <div style={{ flex: 1, "min-width": 0 }}>
                   <div style={{ "font-size": "12px", "font-weight": 500, overflow: "hidden", "text-overflow": "ellipsis", "white-space": "nowrap" }}>
@@ -92,15 +85,13 @@ export default function AgentPanel(props: { projectPath: string }) {
                   <div style={{ display: "flex", gap: "5px", "margin-top": "2px", "align-items": "center" }}>
                     <span style={{ "font-size": "10px", color: statusColor(task.status) }}>{task.status}</span>
                     <span style={{ "font-size": "10px", color: "rgba(255,255,255,0.3)" }}>·</span>
-                    <span style={{ "font-size": "10px", color: AGENT_COLORS[task.agentType] ?? "rgba(255,255,255,0.3)" }}>{task.agentType}</span>
+                    <span style={{ "font-size": "10px", color: agentColor(task.name), "font-weight": 600 }}>{task.name}</span>
                   </div>
                 </div>
                 <button
-                  onClick={(e) => { e.stopPropagation(); setTasks(t => t.filter(x => x.id !== task.id)) }}
+                  onClick={(e) => { e.stopPropagation(); remove(task.id) }}
                   style={{ background: "transparent", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer", "font-size": "12px", padding: "0 4px" }}
-                >
-                  ✕
-                </button>
+                >✕</button>
               </div>
               <Show when={expanded().has(task.id) && task.output}>
                 <pre style={{
@@ -117,26 +108,29 @@ export default function AgentPanel(props: { projectPath: string }) {
 
       {/* Composer */}
       <div style={{ padding: "10px 12px", "border-top": "1px solid rgba(255,255,255,0.07)", "flex-shrink": 0 }}>
-        <div style={{ display: "flex", "align-items": "center", "justify-content": "space-between", "margin-bottom": "6px" }}>
-          <span style={{ "font-size": "11px", "font-weight": 600, color: "rgba(255,255,255,0.4)", "text-transform": "uppercase", "letter-spacing": "0.05em" }}>Assign Task</span>
-          <select
-            value={selectedAgent()}
-            onChange={(e) => setSelectedAgent(e.currentTarget.value)}
-            style={{ background: "rgba(255,255,255,0.07)", border: "none", color: "rgba(255,255,255,0.7)", "font-size": "11px", "border-radius": "4px", padding: "2px 5px", cursor: "pointer" }}
-          >
-            <For each={AGENTS}>{(a) => <option value={a.id}>{a.name}</option>}</For>
-          </select>
-        </div>
+        <input
+          type="text"
+          placeholder="Agent name (optional — inferred if blank)"
+          value={agentName()}
+          onInput={(e) => setAgentName(e.currentTarget.value)}
+          style={{
+            width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
+            "border-radius": "6px", color: "rgba(255,255,255,0.6)", "font-size": "11px",
+            padding: "5px 9px", "font-family": "inherit", outline: "none", "margin-bottom": "6px",
+            "box-sizing": "border-box",
+          }}
+        />
         <textarea
           value={prompt()}
           onInput={(e) => setPrompt(e.currentTarget.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); dispatch() } }}
-          placeholder="Describe task…"
+          placeholder="Describe the task…"
           rows={3}
           style={{
             width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
             "border-radius": "6px", color: "rgba(255,255,255,0.85)", "font-size": "12px",
             padding: "7px 9px", resize: "none", "font-family": "inherit", outline: "none",
+            "box-sizing": "border-box",
           }}
         />
         <button
@@ -151,7 +145,7 @@ export default function AgentPanel(props: { projectPath: string }) {
             "font-size": "12px", "font-weight": 500, transition: "all 0.15s",
           }}
         >
-          ⬆ Dispatch  <span style={{ "font-size": "10px", opacity: "0.6" }}>⌘↵</span>
+          ⬆ Dispatch <span style={{ "font-size": "10px", opacity: "0.6" }}>⌘↵</span>
         </button>
       </div>
 
@@ -164,21 +158,35 @@ function statusColor(status: string): string {
   return { pending: "rgba(255,255,255,0.4)", running: "#569cd6", done: "#6a9153", failed: "#f44747" }[status] ?? "#808080"
 }
 
-async function runAgent(agentId: string, prompt: string, cwd: string): Promise<string> {
-  const cmd = buildCmd(agentId, prompt)
-  return invoke<string>("shell_exec", { cmd, cwd }).catch((e) => `Error: ${e}`)
+function inferAgentName(prompt: string): string {
+  const p = prompt.toLowerCase()
+  if (p.includes("test")) return "test-writer"
+  if (p.includes("lint") || p.includes("eslint") || p.includes("clippy")) return "linter"
+  if (p.includes("format") || p.includes("prettier")) return "formatter"
+  if (p.includes("git") || p.includes("diff") || p.includes("commit")) return "git-agent"
+  if (p.includes("search") || p.includes("find") || p.includes("grep")) return "searcher"
+  if (p.includes("refactor")) return "refactor-agent"
+  if (p.includes("review")) return "code-reviewer"
+  if (p.includes("debug") || p.includes("fix") || p.includes("error")) return "debugger"
+  if (p.includes("build") || p.includes("compile")) return "build-agent"
+  if (p.includes("doc")) return "doc-writer"
+  return "agent"
 }
 
-function buildCmd(agentId: string, prompt: string): string {
+function buildCmd(prompt: string): string {
   const esc = (s: string) => `'${s.replace(/'/g, "'\\''")}'`
-  switch (agentId) {
-    case "search": return `grep -rn --color=never ${esc(prompt)} . 2>/dev/null | head -80`
-    case "git":
-      if (prompt.toLowerCase().includes("log")) return "git log --oneline -20"
-      if (prompt.toLowerCase().includes("diff")) return "git diff --stat"
-      return "git status && echo '---' && git log --oneline -5"
-    case "format": return "npx prettier --write . 2>&1 | tail -10 || gofmt -w . 2>&1 || cargo fmt 2>&1 || echo 'No formatter found'"
-    case "lint": return "npx eslint . --max-warnings 20 2>&1 | head -60 || cargo clippy 2>&1 | head -60 || go vet ./... 2>&1 || echo 'No linter found'"
-    default: return prompt
+  const p = prompt.toLowerCase()
+  if (p.includes("git log")) return "git log --oneline -20"
+  if (p.includes("git diff")) return "git diff --stat"
+  if (p.includes("git status")) return "git status"
+  if (p.startsWith("grep ") || p.startsWith("find ") || p.startsWith("ls ")) return prompt
+  if (p.includes("lint")) return "npx eslint . --max-warnings 20 2>&1 | head -60 || cargo clippy 2>&1 | head -60 || go vet ./... 2>&1"
+  if (p.includes("format")) return "npx prettier --write . 2>&1 | tail -10 || cargo fmt 2>&1 || gofmt -w . 2>&1"
+  if (p.includes("test")) return "bun test 2>&1 | tail -40 || npm test 2>&1 | tail -40 || cargo test 2>&1 | tail -40"
+  if (p.includes("search") || p.includes("find")) {
+    const words = prompt.split(/\s+/).filter(w => w.length > 2)
+    const term = words[words.length - 1] ?? prompt
+    return `grep -rn --color=never ${esc(term)} . 2>/dev/null | head -80`
   }
+  return prompt
 }
