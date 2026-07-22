@@ -1,5 +1,6 @@
-import { createSignal, Show } from "solid-js"
+import { createSignal, Show, onMount } from "solid-js"
 import { open as openDialog } from "@tauri-apps/plugin-dialog"
+import { invoke } from "@tauri-apps/api/core"
 import Sidebar from "./components/Sidebar"
 import EditorPane from "./components/EditorPane"
 import TerminalPane from "./components/TerminalPane"
@@ -24,6 +25,20 @@ function Icon(props: { html: string; style?: string }) {
 
 export default function App() {
   const [projectPath, setProjectPath] = createSignal("")
+  const [updateAvailable, setUpdateAvailable] = createSignal<string | null>(null)
+  const [installing, setInstalling] = createSignal(false)
+
+  onMount(async () => {
+    try {
+      const info = await invoke<{ available: boolean; version: string | null }>("check_update")
+      if (info.available && info.version) setUpdateAvailable(info.version)
+    } catch { /* no update server yet — silent */ }
+  })
+
+  const installUpdate = async () => {
+    setInstalling(true)
+    try { await invoke("install_update") } catch { setInstalling(false) }
+  }
   const [selectedFile, setSelectedFile] = createSignal<string | null>(null)
   const [showTerminal, setShowTerminal] = createSignal(false)
   const [activePanel, setActivePanel] = createSignal<Panel>("files")
@@ -99,10 +114,32 @@ export default function App() {
         >
           {projectName()}
         </span>
-        <div style={{ display: "flex", gap: "2px", "-webkit-app-region": "no-drag" }}>
-          <TitleBtn label="Open folder" onClick={openFolder} icon={IC.folder} />
-          <TitleBtn label="Go to file (⌘P)" onClick={() => setPalette("files")} icon={IC.search} />
-          <TitleBtn label="Toggle terminal (Ctrl+`)" onClick={() => setShowTerminal(v => !v)} active={showTerminal()} icon={IC.terminal} />
+        <div style={{ display: "flex", "align-items": "center", gap: "6px", "-webkit-app-region": "no-drag" }}>
+          <Show when={updateAvailable()}>
+            {(version) => (
+              <button
+                onClick={installUpdate}
+                disabled={installing()}
+                style={{
+                  display: "flex", "align-items": "center", gap: "5px",
+                  background: "rgba(63,185,80,0.15)", border: "1px solid rgba(63,185,80,0.35)",
+                  color: "#3fb950", "border-radius": "10px", padding: "2px 9px",
+                  "font-size": "11px", "font-weight": 500, cursor: "pointer",
+                  transition: "background 0.12s",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(63,185,80,0.25)" }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(63,185,80,0.15)" }}
+              >
+                <span style={{ "font-size": "9px" }}>▲</span>
+                {installing() ? "Installing…" : `Update ${version()}`}
+              </button>
+            )}
+          </Show>
+          <div style={{ display: "flex", gap: "2px" }}>
+            <TitleBtn label="Open folder" onClick={openFolder} icon={IC.folder} />
+            <TitleBtn label="Go to file (⌘P)" onClick={() => setPalette("files")} icon={IC.search} />
+            <TitleBtn label="Toggle terminal (Ctrl+`)" onClick={() => setShowTerminal(v => !v)} active={showTerminal()} icon={IC.terminal} />
+          </div>
         </div>
       </div>
 

@@ -138,6 +138,34 @@ fn list_dir(path: String) -> Result<Vec<DirEntry>, String> {
 #[derive(serde::Serialize)]
 struct DirEntry { name: String, path: String, is_dir: bool }
 
+// ── Updater ───────────────────────────────────────────────────────────────────
+
+#[derive(serde::Serialize)]
+struct UpdateInfo { available: bool, version: Option<String>, body: Option<String> }
+
+#[tauri::command]
+async fn check_update(app: AppHandle) -> Result<UpdateInfo, String> {
+    use tauri_plugin_updater::UpdaterExt;
+    match app.updater().map_err(|e| e.to_string())?.check().await {
+        Ok(Some(update)) => Ok(UpdateInfo {
+            available: true,
+            version: Some(update.version.clone()),
+            body: update.body.clone(),
+        }),
+        Ok(None) => Ok(UpdateInfo { available: false, version: None, body: None }),
+        Err(e) => Err(e.to_string()),
+    }
+}
+
+#[tauri::command]
+async fn install_update(app: AppHandle) -> Result<(), String> {
+    use tauri_plugin_updater::UpdaterExt;
+    if let Some(update) = app.updater().map_err(|e| e.to_string())?.check().await.map_err(|e| e.to_string())? {
+        update.download_and_install(|_, _| {}, || {}).await.map_err(|e| e.to_string())?;
+    }
+    Ok(())
+}
+
 // ── App entry ─────────────────────────────────────────────────────────────────
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -146,6 +174,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .manage(AppState {
             terminal: Mutex::new(TerminalManager::new()),
             lsp: Mutex::new(LspManager::new()),
@@ -156,6 +185,7 @@ pub fn run() {
             search_text, find_files, git_diff,
             shell_exec,
             read_file, write_file, list_dir,
+            check_update, install_update,
         ])
         .run(tauri::generate_context!())
         .expect("error running Reimagined Editor");

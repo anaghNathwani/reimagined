@@ -38,6 +38,11 @@
   "plugins": {
     "shell": {
       "open": false
+    },
+    "updater": {
+      "endpoints": ["https://github.com/anaghNathwani/opencode/releases/latest/download/latest.json"],
+      "dialog": false,
+      "pubkey": ""
     }
   }
 }
