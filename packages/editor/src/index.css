@@ -1,20 +1,24 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0d1117;
-  --bg-elevated: #161b22;
-  --bg-overlay: #1c2128;
-  --border: rgba(255,255,255,0.07);
-  --border-strong: rgba(255,255,255,0.12);
-  --text: #e6edf3;
-  --text-muted: rgba(230,237,243,0.5);
-  --text-dim: rgba(230,237,243,0.25);
-  --accent: #58a6ff;
-  --accent-muted: rgba(88,166,255,0.12);
-  --green: #3fb950;
-  --red: #f85149;
-  --yellow: #d29922;
-  --activity-width: 44px;
+  --vsc-activity-bg: #333333;
+  --vsc-sidebar-bg: #252526;
+  --vsc-editor-bg: #1e1e1e;
+  --vsc-tab-inactive-bg: #2d2d2d;
+  --vsc-tab-active-bg: #1e1e1e;
+  --vsc-tab-border: #252526;
+  --vsc-panel-bg: #1e1e1e;
+  --vsc-statusbar-bg: #007acc;
+  --vsc-border: #454545;
+  --vsc-text: #cccccc;
+  --vsc-text-muted: #858585;
+  --vsc-text-dim: #4d4d4d;
+  --vsc-highlight: #094771;
+  --vsc-hover: #2a2d2e;
+
+  /* Legacy aliases used internally */
+  --bg: #1e1e1e;
+  --activity-width: 48px;
   --titlebar-height: 38px;
 }
 
@@ -23,16 +27,17 @@ html, body, #root {
   width: 100%;
   overflow: hidden;
   background: transparent;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  font-family: -apple-system, "Segoe WPC", "Segoe UI", BlinkMacSystemFont, sans-serif;
   font-size: 13px;
-  color: var(--text);
+  color: var(--vsc-text);
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
+/* VSCode-style thin scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+::-webkit-scrollbar-thumb { background: #424242; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: #555555; }
 
 button, input, textarea, select { font-family: inherit; }
 

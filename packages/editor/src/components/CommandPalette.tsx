@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Show, onCleanup } from "solid-js"
+import { createSignal, createEffect, For, Show } from "solid-js"
 import { invoke } from "@tauri-apps/api/core"
 
 export interface PaletteCommand {
@@ -53,10 +53,7 @@ export default function CommandPalette(props: Props) {
       }
     } else {
       const cmd = filteredCommands()[index]
-      if (cmd) {
-        cmd.action()
-        props.onClose()
-      }
+      if (cmd) { cmd.action(); props.onClose() }
     }
   }
 
@@ -67,13 +64,12 @@ export default function CommandPalette(props: Props) {
     if (e.key === "Enter")     { e.preventDefault(); confirm(active()) }
   }
 
-  // Backdrop click closes
   const onBackdropClick = (e: MouseEvent) => {
     if ((e.target as HTMLElement).dataset.backdrop) props.onClose()
   }
 
-  const title = props.mode === "files" ? "Go to File" : "Run Command"
-  const placeholder = props.mode === "files" ? "Type to search files…" : "Type command name…"
+  const placeholder = props.mode === "files" ? "Go to File..." : "> Type command name..."
+  const prefix = props.mode === "commands" ? "> " : ""
 
   return (
     <div
@@ -81,27 +77,31 @@ export default function CommandPalette(props: Props) {
       onClick={onBackdropClick}
       style={{
         position: "fixed", inset: 0, "z-index": 1000,
-        background: "rgba(0,0,0,0.45)",
+        background: "rgba(0,0,0,0.5)",
         display: "flex", "align-items": "flex-start", "justify-content": "center",
-        "padding-top": "80px",
+        "padding-top": "15vh",
       }}
     >
       <div
         style={{
-          width: "560px", "max-height": "480px",
-          background: "rgba(28,28,36,0.97)",
-          border: "1px solid rgba(255,255,255,0.12)",
-          "border-radius": "10px",
-          "box-shadow": "0 24px 64px rgba(0,0,0,0.6)",
+          width: "600px", "max-height": "440px",
+          background: "#252526",
+          "box-shadow": "0 16px 40px rgba(0,0,0,0.6)",
           display: "flex", "flex-direction": "column",
           overflow: "hidden",
+          "border-radius": "0",
         }}
       >
-        {/* Input */}
-        <div style={{ display: "flex", "align-items": "center", "border-bottom": "1px solid rgba(255,255,255,0.08)", padding: "0 14px" }}>
-          <span style={{ color: "rgba(255,255,255,0.3)", "margin-right": "10px", "font-size": "14px" }}>
-            {props.mode === "files" ? "📄" : "⌘"}
-          </span>
+        {/* Input row */}
+        <div style={{
+          display: "flex", "align-items": "center",
+          padding: "0 12px",
+          background: "#252526",
+          "border-bottom": "1px solid #454545",
+        }}>
+          <Show when={props.mode === "commands"}>
+            <span style={{ color: "#cccccc", "font-size": "14px", "margin-right": "2px" }}>{">"}</span>
+          </Show>
           <input
             ref={inputRef}
             type="text"
@@ -111,20 +111,23 @@ export default function CommandPalette(props: Props) {
             onKeyDown={onKeyDown}
             style={{
               flex: 1, background: "transparent", border: "none", outline: "none",
-              color: "rgba(255,255,255,0.9)", "font-size": "14px", padding: "13px 0",
+              color: "#cccccc", "font-size": "14px", padding: "10px 4px",
               "font-family": "inherit",
             }}
           />
-          <span style={{ "font-size": "11px", color: "rgba(255,255,255,0.2)", "margin-left": "8px" }}>esc</span>
+          <span style={{ "font-size": "11px", color: "#858585", "margin-left": "8px", "white-space": "nowrap" }}>
+            esc to dismiss
+          </span>
         </div>
 
-        {/* Results */}
-        <div style={{ overflow: "auto", "max-height": "380px" }}>
+        {/* Results list */}
+        <div style={{ overflow: "auto", "max-height": "380px", background: "#252526" }}>
           <Show when={total() === 0}>
-            <div style={{ padding: "24px", "text-align": "center", color: "rgba(255,255,255,0.25)", "font-size": "13px" }}>
-              {query() ? "No results" : props.mode === "files" ? "Start typing to search files…" : "No commands"}
+            <div style={{ padding: "8px 12px", "font-size": "12px", color: "#858585" }}>
+              {query() ? "No matching results" : props.mode === "files" ? "Type to search files..." : "No commands found"}
             </div>
           </Show>
+
           <For each={props.mode === "files" ? files() : filteredCommands()}>
             {(item, i) => {
               const isCmd = props.mode === "commands"
@@ -138,34 +141,33 @@ export default function CommandPalette(props: Props) {
                   onClick={() => confirm(i())}
                   onMouseEnter={() => setActive(i())}
                   style={{
-                    display: "flex", "align-items": "center", padding: "7px 14px", cursor: "pointer",
-                    background: active() === i() ? "rgba(86,156,214,0.18)" : "transparent",
-                    "border-left": `2px solid ${active() === i() ? "#569cd6" : "transparent"}`,
-                    transition: "background 0.08s",
+                    display: "flex", "align-items": "center", padding: "4px 12px",
+                    cursor: "pointer", "min-height": "34px",
+                    background: active() === i() ? "#094771" : "transparent",
                   }}
                 >
                   <div style={{ flex: 1, "min-width": 0 }}>
-                    <div style={{ "font-size": "13px", color: "rgba(255,255,255,0.88)", "white-space": "nowrap", overflow: "hidden", "text-overflow": "ellipsis" }}>
+                    <div style={{
+                      "font-size": "13px", color: "#cccccc",
+                      "white-space": "nowrap", overflow: "hidden", "text-overflow": "ellipsis",
+                    }}>
                       {label}
                     </div>
                     <Show when={detail}>
-                      <div style={{ "font-size": "11px", color: "rgba(255,255,255,0.35)", "margin-top": "1px", "white-space": "nowrap", overflow: "hidden", "text-overflow": "ellipsis" }}>
+                      <div style={{ "font-size": "11px", color: "#858585", "margin-top": "1px", "white-space": "nowrap", overflow: "hidden", "text-overflow": "ellipsis" }}>
                         {detail}
                       </div>
                     </Show>
                   </div>
                   <Show when={keybind}>
-                    <span style={{ "font-size": "10px", color: "rgba(255,255,255,0.3)", "margin-left": "12px", "flex-shrink": 0 }}>{keybind}</span>
+                    <span style={{ "font-size": "11px", color: "#858585", "margin-left": "16px", "flex-shrink": 0, "font-family": "monospace" }}>
+                      {keybind}
+                    </span>
                   </Show>
                 </div>
               )
             }}
           </For>
-        </div>
-
-        {/* Footer */}
-        <div style={{ padding: "6px 14px", "border-top": "1px solid rgba(255,255,255,0.06)", "font-size": "10px", color: "rgba(255,255,255,0.2)", display: "flex", gap: "12px" }}>
-          <span>↑↓ navigate</span><span>↵ open</span><span>esc dismiss</span>
         </div>
       </div>
     </div>
