@@ -17,15 +17,7 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
-    "@reimagined-ai/app#test": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
     "@reimagined-ai/ui#test": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "@reimagined-ai/session-ui#test": {
       "dependsOn": ["^build"],
       "outputs": []
     }
